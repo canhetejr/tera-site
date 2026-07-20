@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 342" role="img" aria-label="Tera Innovation and Technology">
+  <rect x="0" y="0" width="262" height="68" fill="#1f1f1f"/>
+  <path d="M 90 68 H 174 V 228 C 174 256 187 270 212 270 H 225 V 336 H 190 C 132 336 90 295 90 238 Z" fill="#1f1f1f"/>
+  <circle cx="294" cy="296" r="46" fill="#1f1f1f"/>
+  <text x="296" y="61" fill="#1f1f1f" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="700" textLength="212" lengthAdjust="spacingAndGlyphs">TERA INNOVATION AND TECHNOLOGY</text>
+</svg>
