@@ -1,0 +1,360 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta name="theme-color" content="#101010"/><meta property="og:title" content="Briefing do Projeto — Tera"/><meta property="og:description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta property="og:type" content="website"/><meta property="og:url" content="https://tera.brugnolo.com.br/briefing.html"/><link rel="canonical" href="https://tera.brugnolo.com.br/briefing.html"/><meta name="robots" content="index, follow"/><title>Briefing do Projeto — Tera</title><style>
+    :root {
+      --ink:#101010; --paper:#f5f3ef; --white:#fffdf9; --muted:#6d6962;
+      --line:#d8d4cc; --acid:#d7f75b; --soft:#e9e6df; --max:1240px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--ink);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased} a{color:inherit;text-decoration:none} button{font:inherit} .wrap{width:min(calc(100% - 48px),var(--max));margin:0 auto}
+    .skip{position:absolute;left:-999px;top:10px;background:var(--acid);color:var(--ink);padding:12px 16px;z-index:100;font-weight:800}.skip:focus{left:10px}
+    :focus-visible{outline:3px solid var(--acid);outline-offset:4px}
+    header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #262624}
+    .brand{display:inline-flex;align-items:center;gap:13px;font-weight:900;letter-spacing:-.04em;color:var(--white)}.brand-mark{width:42px;height:42px;display:block}.brand-word{font-size:20px}
+    nav{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:750}nav a{color:#9a968f;transition:color .2s ease;position:relative}nav a:hover,nav a:focus-visible{color:var(--white)}nav a.nav-active{color:var(--white)!important;font-weight:900}
+    .nav-cta{background:var(--acid);color:var(--ink);border-radius:999px;padding:13px 20px;border:0;cursor:pointer;transition:transform .2s ease,background .2s ease}.nav-cta:hover{transform:translateY(-2px);background:#e5ff82}
+
+    .preloader{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:var(--ink);color:var(--white);transition:opacity .65s cubic-bezier(.2,.75,.2,1),visibility .65s}.preloader.done{opacity:0;visibility:hidden}.preloader-inner{display:grid;justify-items:center;gap:22px}.preloader-mark{width:82px;height:82px;color:var(--white);animation:intro-spin 1.2s cubic-bezier(.2,.8,.2,1) both}.preloader-mark circle{fill:var(--acid)}.preloader-label{font:800 10px ui-monospace,SFMono-Regular,monospace;letter-spacing:.22em;color:#aaa69f}
+    @keyframes intro-spin{from{opacity:0;transform:scale(.55) rotate(-35deg)}to{opacity:1;transform:none}}
+    .cursor-aura{position:fixed;left:0;top:0;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;background:radial-gradient(circle,rgba(215,247,91,.14),rgba(215,247,91,0) 68%);transform:translate3d(-50%,-50%,0);transition:opacity .3s;mix-blend-mode:screen}.cursor-aura.active{opacity:1}
+    #scroll-progress{position:fixed;left:0;top:0;height:3px;width:100%;z-index:999;transform:scaleX(0);transform-origin:left;background:var(--acid);pointer-events:none}
+
+    .briefing-stage{position:relative;min-height:calc(100vh - 88px);display:grid;place-items:center;overflow:hidden;padding:56px 20px}
+    .briefing-orbit-backdrop{position:absolute;inset:0;z-index:0}
+    #briefing-orbit{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .briefing-vignette{position:absolute;inset:0;z-index:1;background:radial-gradient(circle at 50% 38%,rgba(16,16,16,.05) 0%,rgba(16,16,16,.62) 60%,rgba(16,16,16,.94) 100%);pointer-events:none}
+
+    .briefing-card{position:relative;z-index:2;width:min(620px,100%);background:#141412;border:1px solid #2c2c2a;padding:44px 44px 40px;box-shadow:16px 16px 0 var(--acid)}
+    .briefing-kicker{display:flex;justify-content:space-between;align-items:center;gap:16px;font:800 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.11em;color:#8f8c85;margin-bottom:22px;text-transform:uppercase}
+    .briefing-kicker b{color:var(--acid);font-weight:800}
+    .briefing-progress{height:3px;background:#2a2a28;margin-bottom:32px;overflow:hidden}
+    .briefing-progress i{display:block;height:100%;background:var(--acid);width:0%;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+
+    .wizard-step{display:none}
+    .wizard-step.active{display:block;animation:step-in .5s cubic-bezier(.16,1,.3,1) both}
+    @keyframes step-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .wizard-step h2{font-size:clamp(25px,4vw,36px);line-height:1.08;letter-spacing:-.04em;margin:0 0 12px;font-weight:800}
+    .wizard-step p.hint{color:#9a968f;font-size:14px;line-height:1.55;margin:0 0 26px;max-width:460px}
+
+    .wizard-field{margin-bottom:6px}
+    .wizard-field input[type=text],.wizard-field input[type=email],.wizard-field input[type=tel],.wizard-field textarea{width:100%;border:0;border-bottom:1px solid #3c3c39;border-radius:0;background:transparent;color:var(--white);font:inherit;font-size:20px;font-weight:600;line-height:1.4;padding:9px 0 14px;outline:0;transition:border-color .2s}
+    .wizard-field textarea{min-height:104px;resize:vertical;font-size:17px;font-weight:500}
+    .wizard-field input::placeholder,.wizard-field textarea::placeholder{color:#5c5a55;font-weight:500}
+    .wizard-field input:focus,.wizard-field textarea:focus{border-color:var(--acid)}
+    .char-count{margin-top:8px;font:700 11px ui-monospace,SFMono-Regular,monospace;color:#6f6d67;text-align:right}
+    .skip-field{background:none;border:0;color:#77746e;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 0 0}
+    .skip-field:hover{color:var(--acid)}
+
+    .choice-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+    .choice-btn{border:1px solid #3c3c39;background:transparent;color:var(--white);border-radius:999px;padding:12px 20px;font-weight:750;font-size:14px;cursor:pointer;transition:all .2s}
+    .choice-btn:hover{border-color:#77746e}
+    .choice-btn.selected{background:var(--acid);border-color:var(--acid);color:var(--ink)}
+    .contact-value{margin-top:22px;display:none}
+    .contact-value.visible{display:block;animation:step-in .35s cubic-bezier(.16,1,.3,1) both}
+
+    .wizard-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:16px}
+    .wizard-back{background:none;border:0;color:#9a968f;font:750 12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:10px 0}
+    .wizard-back:hover{color:var(--white)}
+    .wizard-next,.wizard-submit,.start-button{display:inline-flex;align-items:center;gap:16px;border:0;border-radius:999px;background:var(--acid);color:var(--ink);padding:14px 16px 14px 22px;font-weight:800;font-size:14px;cursor:pointer;transition:transform .2s,background .2s,opacity .2s;white-space:nowrap}
+    .wizard-next:hover,.wizard-submit:hover,.start-button:hover{transform:translateY(-2px);background:#e5ff82}
+    .wizard-next .arrow,.wizard-submit .arrow,.start-button .arrow{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:var(--white);font-size:14px;flex:none}
+    .wizard-submit:disabled{opacity:.55;cursor:wait;transform:none}
+    .wizard-error{color:#ff9a86;font-size:13px;margin-top:14px;min-height:16px}
+
+    .step-cover .eyebrow-mini{display:inline-flex;align-items:center;gap:9px;color:#9a968f;font:800 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+    .step-cover .eyebrow-mini i{width:7px;height:7px;border-radius:50%;background:var(--acid);display:block}
+    .step-cover h1{font-size:clamp(30px,5vw,44px);line-height:1.03;letter-spacing:-.045em;margin:0 0 16px;font-weight:900}
+    .step-cover>p{color:#aaa69f;font-size:16px;line-height:1.6;max-width:480px;margin:0 0 28px}
+    .step-cover-list{display:flex;flex-direction:column;gap:10px;margin:0 0 32px;padding:0;font-size:13px;color:#9a968f}
+    .step-cover-list li{display:flex;gap:10px;align-items:flex-start;list-style:none}
+    .step-cover-list li:before{content:"✳";color:var(--acid);flex:none}
+
+    .review-list{border-top:1px solid #2c2c2a;margin-bottom:4px}
+    .review-row{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid #2c2c2a}
+    .review-row span{font:750 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;color:#8f8c85}
+    .review-row b{font-size:15px;font-weight:650;line-height:1.4;word-break:break-word}
+
+    .step-success .success-mark{width:52px;height:52px;border-radius:50%;background:var(--acid);color:var(--ink);display:grid;place-items:center;font-size:26px;font-weight:900;margin-bottom:24px}
+    .step-success h2{margin-bottom:14px}
+    .step-success p{color:#aaa69f;font-size:15px;line-height:1.6;max-width:460px;margin:0 0 28px}
+    .step-success .start-button{background:var(--white)}
+    .step-success .start-button:hover{background:#e5e2da}
+    .step-success .start-button .arrow{background:var(--acid);color:var(--ink)}
+
+    .wizard-alt{margin-top:26px;padding-top:22px;border-top:1px solid #2c2c2a;font-size:13px;color:#77746e;line-height:1.5}
+    .wizard-alt a{color:#9a968f;text-decoration:underline;text-underline-offset:3px}
+    .wizard-alt a:hover{color:var(--acid)}
+
+    #sucesso-banner{display:none}
+    #sucesso-banner:target{display:block}
+
+    footer.site-footer{width:min(calc(100% - 48px),var(--max));margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:#77746e;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:25px 0 36px;border-top:1px solid #262624}
+    .footer-brand{color:var(--white);font-weight:900}
+
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wizard-step.active,.contact-value.visible{animation:none}*{transition-duration:.01ms!important}}
+
+    @media(max-width:900px){nav a:not(.nav-cta){display:none}}
+    @media(max-width:640px){.wrap{width:min(calc(100% - 32px),var(--max))}header{height:74px}.brand-word{font-size:17px}.brand-mark{width:36px;height:36px}.nav-cta{padding:12px 15px}.briefing-stage{padding:34px 14px}.briefing-card{padding:28px 22px 26px;box-shadow:8px 8px 0 var(--acid)}.wizard-nav{flex-wrap:wrap}.wizard-next,.wizard-submit,.start-button{width:100%;justify-content:space-between}.wizard-back{order:2}footer.site-footer{display:block;line-height:2;width:min(calc(100% - 32px),var(--max))}}
+  </style></head><body><div class="preloader" id="preloader" aria-hidden="true"><div class="preloader-inner"><svg class="preloader-mark" viewBox="0 0 340 342"><rect x="0" y="0" width="262" height="68" fill="currentColor"/><path d="M90 68h84v160c0 28 13 42 38 42h13v66h-35c-58 0-100-41-100-98z" fill="currentColor"/><circle cx="294" cy="296" r="46"/></svg><div class="preloader-label">TERA / INICIANDO MOVIMENTO</div></div></div><div class="cursor-aura" id="cursor-aura" aria-hidden="true"></div><div id="scroll-progress" aria-hidden="true"></div><a class="skip" href="#conteudo">Pular para o conteúdo</a><div class="wrap"><header><a class="brand" href="index.html" aria-label="Tera início"><svg class="brand-mark" viewBox="0 0 340 342" role="img" aria-label="Símbolo oficial da Tera"><rect x="0" y="0" width="262" height="68" fill="currentColor"/><path d="M90 68h84v160c0 28 13 42 38 42h13v66h-35c-58 0-100-41-100-98z" fill="currentColor"/><circle cx="294" cy="296" r="46" fill="currentColor"/></svg><span class="brand-word">TERA</span></a><nav aria-label="Navegação principal"><a href="index.html">Início</a><a href="servicos.html">Serviços</a><a href="projetos.html">Projetos</a><a href="sobre.html">Sobre</a><a href="briefing.html" class="nav-active">Briefing Rápido ↗</a><a href="contato.html#contato" class="nav-cta">Falar sobre um projeto ↗</a></nav></header></div><main id="conteudo"><section class="briefing-stage" aria-labelledby="briefing-title"><div class="briefing-orbit-backdrop" aria-hidden="true"><canvas id="briefing-orbit"></canvas></div><div class="briefing-vignette" aria-hidden="true"></div>
+
+<div id="sucesso-banner" class="wrap" style="position:relative;z-index:2;max-width:620px;margin:0 auto 18px;text-align:center;color:var(--acid);font:750 12px ui-monospace,SFMono-Regular,monospace;letter-spacing:.08em;text-transform:uppercase">✳ Briefing recebido — a equipe da Tera vai te chamar em breve</div>
+
+<div class="briefing-card">
+<div class="briefing-kicker"><span>TERA / BRIEFING INTERATIVO</span><b id="step-counter">INÍCIO</b></div>
+<div class="briefing-progress" aria-hidden="true"><i id="progress-fill"></i></div>
+
+<form id="briefing-form" action="https://formsubmit.co/canhete.jr@gmail.com" method="POST" novalidate>
+<input type="hidden" name="_subject" value="Novo briefing — Experiência Tera"/>
+<input type="hidden" name="_template" value="table"/>
+<input type="hidden" name="_next" value="https://tera.brugnolo.com.br/briefing.html?enviado=1#sucesso-banner"/>
+<input type="text" name="_honey" class="skip-field" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important"/>
+
+<div class="wizard-step step-cover active" data-step="0">
+  <div class="eyebrow-mini"><i></i>SEM IA · SÓ AS PERGUNTAS CERTAS</div>
+  <h1 id="briefing-title">Vamos estruturar o briefing do seu projeto.</h1>
+  <p>Quatro perguntas rápidas, menos de 2 minutos. No final você revisa tudo antes de enviar, e a Tera recebe um briefing pronto para começar a conversa certa.</p>
+  <ul class="step-cover-list"><li>Como te chamar e qual empresa você representa</li><li>Sua ideia, em poucas palavras</li><li>Sua forma preferida de contato</li><li>Uma revisão final antes de enviar</li></ul>
+  <button type="button" class="start-button" data-action="start">Começar <span class="arrow">↗</span></button>
+</div>
+
+<div class="wizard-step" data-step="1">
+  <h2>Como prefere ser chamado?</h2>
+  <p class="hint">Nome ou apelido — como a equipe da Tera deve se dirigir a você.</p>
+  <div class="wizard-field"><label class="skip"></label><input type="text" id="nome" name="nome" placeholder="Seu nome ou apelido" autocomplete="name" required/></div>
+  <p class="wizard-error" data-error-for="1"></p>
+  <div class="wizard-nav"><span></span><button type="button" class="wizard-next" data-action="next">Continuar <span class="arrow">↗</span></button></div>
+</div>
+
+<div class="wizard-step" data-step="2">
+  <h2>Qual empresa você representa?</h2>
+  <p class="hint">Se ainda não tem uma empresa formal, sem problema — pode pular esta pergunta.</p>
+  <div class="wizard-field"><input type="text" id="empresa" name="empresa" placeholder="Nome da empresa" autocomplete="organization"/></div>
+  <button type="button" class="skip-field" data-action="skip-empresa">Ainda não tenho uma empresa →</button>
+  <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><button type="button" class="wizard-next" data-action="next">Continuar <span class="arrow">↗</span></button></div>
+</div>
+
+<div class="wizard-step" data-step="3">
+  <h2>Descreva em poucas palavras a sua ideia.</h2>
+  <p class="hint">Não precisa ser perfeito. Ex.: "Um sistema para organizar os pedidos da minha loja" ou "Automatizar o atendimento do meu WhatsApp".</p>
+  <div class="wizard-field"><textarea id="ideia" name="ideia" placeholder="Conte a ideia com suas palavras…" maxlength="600" required></textarea><div class="char-count"><span id="ideia-count">0</span>/600</div></div>
+  <p class="wizard-error" data-error-for="3"></p>
+  <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><button type="button" class="wizard-next" data-action="next">Continuar <span class="arrow">↗</span></button></div>
+</div>
+
+<div class="wizard-step" data-step="4">
+  <h2>Qual sua forma de contato preferida?</h2>
+  <p class="hint">Escolha como prefere que a Tera fale com você.</p>
+  <div class="choice-row" role="group" aria-label="Forma de contato preferida">
+    <button type="button" class="choice-btn" data-method="E-mail">E-mail</button>
+    <button type="button" class="choice-btn" data-method="WhatsApp">WhatsApp</button>
+    <button type="button" class="choice-btn" data-method="Telefone">Telefone</button>
+  </div>
+  <input type="hidden" id="contato_metodo" name="contato_metodo" required/>
+  <div class="contact-value" id="contact-email-wrap"><div class="wizard-field"><input type="email" id="contato_email" name="contato_email" placeholder="voce@empresa.com" autocomplete="email"/></div></div>
+  <div class="contact-value" id="contact-fone-wrap"><div class="wizard-field"><input type="tel" id="contato_fone" name="contato_fone" placeholder="(44) 99999-9999" autocomplete="tel"/></div></div>
+  <p class="wizard-error" data-error-for="4"></p>
+  <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><button type="button" class="wizard-next" data-action="next">Revisar briefing <span class="arrow">↗</span></button></div>
+</div>
+
+<div class="wizard-step" data-step="5">
+  <h2>Seu briefing está pronto.</h2>
+  <p class="hint">Confira as respostas. Se algo estiver errado, é só voltar e ajustar.</p>
+  <div class="review-list">
+    <div class="review-row"><span>Nome</span><b id="review-nome">—</b></div>
+    <div class="review-row"><span>Empresa</span><b id="review-empresa">—</b></div>
+    <div class="review-row"><span>Ideia</span><b id="review-ideia">—</b></div>
+    <div class="review-row"><span>Contato</span><b id="review-contato">—</b></div>
+  </div>
+  <noscript><p class="hint" style="margin-top:16px">Revise as respostas preenchidas acima antes de clicar em enviar.</p></noscript>
+  <p class="wizard-error" data-error-for="5"></p>
+  <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><button type="submit" class="wizard-submit" id="submit-button">Enviar briefing para a Tera <span class="arrow">↗</span></button></div>
+</div>
+
+</form>
+
+<div class="wizard-step step-success" data-step="success" id="success-step">
+  <div class="success-mark">✓</div>
+  <h2>Briefing enviado.</h2>
+  <p>A equipe da Tera vai analisar as respostas e volta com um próximo passo pelo contato que você escolheu.</p>
+  <a class="start-button" href="index.html">Voltar ao início <span class="arrow">↗</span></a>
+</div>
+
+<div class="wizard-alt" id="wizard-alt-note">Prefere um formulário tradicional, com mais detalhes? <a href="contato.html#contato">Fale por aqui</a>.</div>
+</div>
+
+</section></main><footer class="site-footer"><span class="footer-brand">TERA</span><span>Innovation and Technology · © 2026</span><span>Maringá / Paraná / Brasil</span></footer>
+
+<script>
+(()=>{
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const preloader = document.getElementById('preloader');
+  const finishIntro = () => preloader?.classList.add('done');
+  if (reduced) finishIntro(); else { addEventListener('load', () => setTimeout(finishIntro, 520), { once: true }); setTimeout(finishIntro, 1600); }
+
+  const aura = document.getElementById('cursor-aura');
+  if (aura && !reduced && matchMedia('(pointer:fine)').matches) {
+    addEventListener('pointermove', e => { aura.classList.add('active'); aura.style.left = `${e.clientX}px`; aura.style.top = `${e.clientY}px`; }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', () => aura.classList.remove('active'));
+  }
+
+  const progress = document.getElementById('scroll-progress');
+  let scrollTick = false;
+  const updateProgress = () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`; scrollTick = false; };
+  addEventListener('scroll', () => { if (!scrollTick) { requestAnimationFrame(updateProgress); scrollTick = true; } }, { passive: true }); updateProgress();
+
+  // --- Wizard ---
+  const form = document.getElementById('briefing-form');
+  const card = document.querySelector('.briefing-card');
+  const steps = [...document.querySelectorAll('.wizard-step[data-step]')];
+  const successStep = document.getElementById('success-step');
+  const stepCounter = document.getElementById('step-counter');
+  const progressFill = document.getElementById('progress-fill');
+  const altNote = document.getElementById('wizard-alt-note');
+  const STEP_LABELS = { '0': 'INÍCIO', '1': 'PASSO 1 DE 4', '2': 'PASSO 2 DE 4', '3': 'PASSO 3 DE 4', '4': 'PASSO 4 DE 4', '5': 'REVISÃO' };
+  const STEP_PROGRESS = { '0': 0, '1': 25, '2': 50, '3': 75, '4': 90, '5': 100 };
+
+  const state = { nome: '', empresa: '', ideia: '', metodo: '', valor: '' };
+  let current = 0;
+
+  function showStep(index) {
+    current = index;
+    steps.forEach(s => s.classList.toggle('active', s.dataset.step === String(index)));
+    stepCounter.textContent = STEP_LABELS[String(index)] || '';
+    progressFill.style.width = (STEP_PROGRESS[String(index)] ?? 0) + '%';
+    const active = steps.find(s => s.dataset.step === String(index));
+    const focusEl = active?.querySelector('input:not([type=hidden]),textarea,button.start-button,button.wizard-next');
+    if (focusEl && !reduced) setTimeout(() => focusEl.focus(), 220);
+    if (index === 5) populateReview();
+  }
+
+  function setError(stepIndex, message) {
+    const el = document.querySelector(`.wizard-error[data-error-for="${stepIndex}"]`);
+    if (el) el.textContent = message || '';
+  }
+
+  function validateStep(index) {
+    setError(index, '');
+    if (index === 1) {
+      const v = document.getElementById('nome').value.trim();
+      if (!v) { setError(1, 'Conta pra gente como prefere ser chamado.'); return false; }
+      state.nome = v;
+    }
+    if (index === 2) {
+      state.empresa = document.getElementById('empresa').value.trim();
+    }
+    if (index === 3) {
+      const v = document.getElementById('ideia').value.trim();
+      if (v.length < 4) { setError(3, 'Descreve rapidinho a ideia — mesmo que ainda esteja crua.'); return false; }
+      state.ideia = v;
+    }
+    if (index === 4) {
+      if (!state.metodo) { setError(4, 'Escolha uma forma de contato.'); return false; }
+      const input = state.metodo === 'E-mail' ? document.getElementById('contato_email') : document.getElementById('contato_fone');
+      const v = input.value.trim();
+      if (!v || !input.checkValidity()) { setError(4, state.metodo === 'E-mail' ? 'Digite um e-mail válido.' : 'Digite um número válido.'); return false; }
+      state.valor = v;
+    }
+    return true;
+  }
+
+  function populateReview() {
+    document.getElementById('review-nome').textContent = state.nome || '—';
+    document.getElementById('review-empresa').textContent = state.empresa || 'Projeto pessoal / sem empresa ainda';
+    document.getElementById('review-ideia').textContent = state.ideia || '—';
+    document.getElementById('review-contato').textContent = state.metodo ? `${state.metodo} — ${state.valor}` : '—';
+  }
+
+  document.querySelectorAll('[data-action="start"]').forEach(b => b.addEventListener('click', () => showStep(1)));
+  document.querySelectorAll('[data-action="next"]').forEach(b => b.addEventListener('click', () => { if (validateStep(current)) showStep(Math.min(current + 1, 5)); }));
+  document.querySelectorAll('[data-action="back"]').forEach(b => b.addEventListener('click', () => showStep(Math.max(current - 1, 1))));
+  document.querySelector('[data-action="skip-empresa"]').addEventListener('click', () => { document.getElementById('empresa').value = ''; state.empresa = ''; showStep(3); });
+
+  document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.choice-btn').forEach(b => b.classList.toggle('selected', b === btn));
+      const method = btn.dataset.method;
+      state.metodo = method;
+      document.getElementById('contato_metodo').value = method;
+      const emailWrap = document.getElementById('contact-email-wrap');
+      const foneWrap = document.getElementById('contact-fone-wrap');
+      const isEmail = method === 'E-mail';
+      emailWrap.classList.toggle('visible', isEmail);
+      foneWrap.classList.toggle('visible', !isEmail);
+      const target = isEmail ? document.getElementById('contato_email') : document.getElementById('contato_fone');
+      if (!reduced) setTimeout(() => target.focus(), 150);
+    });
+  });
+
+  const ideiaEl = document.getElementById('ideia'), ideiaCount = document.getElementById('ideia-count');
+  ideiaEl.addEventListener('input', () => { ideiaCount.textContent = String(ideiaEl.value.length); });
+
+  form.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const tag = e.target.tagName;
+    if (tag === 'TEXTAREA') return;
+    if (current === 0 || current === 5) return;
+    e.preventDefault();
+    if (validateStep(current)) showStep(Math.min(current + 1, 5));
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validateStep(5) && current === 5) return;
+    const button = document.getElementById('submit-button');
+    const original = button.innerHTML;
+    button.disabled = true; button.innerHTML = 'Enviando… <span class="arrow">↗</span>';
+    setError(5, '');
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/canhete.jr@gmail.com', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+      const result = await response.json();
+      if (!response.ok || String(result.success) !== 'true') throw new Error(result.message || 'Falha no envio');
+      steps.forEach(s => s.classList.remove('active'));
+      successStep.classList.add('active');
+      stepCounter.textContent = 'ENVIADO';
+      progressFill.style.width = '100%';
+      if (altNote) altNote.style.display = 'none';
+      if (!reduced) setTimeout(() => successStep.querySelector('.start-button')?.focus(), 200);
+    } catch (error) {
+      setError(5, 'Não foi possível enviar agora. Tente novamente em alguns instantes.');
+      button.disabled = false; button.innerHTML = original;
+    }
+  });
+
+  if (new URLSearchParams(location.search).get('enviado') === '1') {
+    steps.forEach(s => s.classList.remove('active'));
+    successStep.classList.add('active');
+    stepCounter.textContent = 'ENVIADO';
+    progressFill.style.width = '100%';
+    if (altNote) altNote.style.display = 'none';
+  }
+
+  // --- Orbital 3D backdrop ---
+  const canvas = document.getElementById('briefing-orbit'), stage = document.querySelector('.briefing-orbit-backdrop');
+  if (!canvas || !stage) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w = 0, h = 0, dpr = 1, time = 0, raf = 0, mouse = { x: 0, y: 0 }, target = { x: 0, y: 0 };
+  const points = Array.from({ length: 420 }, (_, i) => { const t = i / 420 * Math.PI * 12, r = 1 + .23 * Math.cos(3 * t); return { x: r * Math.cos(2 * t), y: r * Math.sin(2 * t), z: .62 * Math.sin(3 * t), band: i % 3 }; });
+  const stars = Array.from({ length: 60 }, (_, i) => ({ a: (i * 2.399963), r: .42 + ((i * 37) % 100) / 100 * .56, s: .5 + (i % 5) * .18 }));
+  const resize = () => { const r = stage.getBoundingClientRect(); dpr = Math.min(devicePixelRatio || 1, 1.75); w = Math.max(1, r.width); h = Math.max(1, r.height); canvas.width = w * dpr; canvas.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  new ResizeObserver(resize).observe(stage); resize();
+  stage.addEventListener('pointermove', e => { const r = stage.getBoundingClientRect(); target.x = (e.clientX - r.left) / r.width - .5; target.y = (e.clientY - r.top) / r.height - .5; });
+  stage.addEventListener('pointerleave', () => { target = { x: 0, y: 0 }; });
+  const rotate = (p, ay, ax) => { let x = p.x * Math.cos(ay) - p.z * Math.sin(ay), z = p.x * Math.sin(ay) + p.z * Math.cos(ay), y = p.y * Math.cos(ax) - z * Math.sin(ax); z = p.y * Math.sin(ax) + z * Math.cos(ax); return { x, y, z }; };
+  const frame = now => {
+    time = now * .00024; mouse.x += (target.x - mouse.x) * .05; mouse.y += (target.y - mouse.y) * .05; ctx.clearRect(0, 0, w, h);
+    const glow = ctx.createRadialGradient(w * .5, h * .42, 0, w * .5, h * .42, Math.max(w, h) * .62);
+    glow.addColorStop(0, 'rgba(215,247,91,.10)'); glow.addColorStop(1, 'rgba(16,16,16,0)'); ctx.fillStyle = glow; ctx.fillRect(0, 0, w, h);
+    ctx.save(); ctx.translate(w * .5, h * .42); const scale = Math.min(w, h) * .44, ay = time + mouse.x * .8, ax = .48 + Math.sin(time * .6) * .08 - mouse.y * .55; let prev = null;
+    points.forEach((p, i) => {
+      const q = rotate(p, ay, ax), pers = 2.9 / (3.4 - q.z), x = q.x * scale * pers, y = q.y * scale * pers, depth = (q.z + 1.7) / 3.4;
+      if (prev && i % 140 !== 0) { ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(x, y); ctx.strokeStyle = `rgba(215,247,91,${.03 + depth * .13})`; ctx.lineWidth = .55 + depth * .7; ctx.stroke(); }
+      if (i % 3 === 0) { ctx.beginPath(); ctx.arc(x, y, .45 + depth * 1.35, 0, Math.PI * 2); ctx.fillStyle = `rgba(255,253,249,${.16 + depth * .55})`; ctx.fill(); }
+      prev = { x, y };
+    });
+    stars.forEach((s, i) => { const a = s.a - time * (.16 + (i % 3) * .05), rr = scale * s.r, x = Math.cos(a) * rr, y = Math.sin(a) * rr * .42; ctx.beginPath(); ctx.arc(x, y, s.s, 0, Math.PI * 2); ctx.fillStyle = i % 7 === 0 ? '#d7f75b' : 'rgba(255,255,255,.32)'; ctx.fill(); });
+    ctx.beginPath(); ctx.arc(0, 0, 3 + Math.sin(time * 5) * 1.2, 0, Math.PI * 2); ctx.fillStyle = '#d7f75b'; ctx.shadowColor = '#d7f75b'; ctx.shadowBlur = 18; ctx.fill(); ctx.restore(); ctx.shadowBlur = 0;
+    if (!reduced) raf = requestAnimationFrame(frame);
+  };
+  frame(0);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(raf); else if (!reduced) raf = requestAnimationFrame(frame); });
+})();
+</script>
+</body></html>
