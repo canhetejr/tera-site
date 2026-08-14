@@ -59,8 +59,11 @@ function magnetise(elements) {
       // The control answers before the pointer is on it — that anticipation
       // is the whole point.
       const pull = clamp(1 - Math.hypot(dx, dy) / reach);
-      it.tx = dx * 0.22 * pull * it.strength;
-      it.ty = dy * 0.3 * pull * it.strength;
+      // Peaks at roughly 5px across and 7px down. A control that answers is an
+      // object; a control that travels twenty pixels is a control running away
+      // from the cursor, and the reader ends up chasing it.
+      it.tx = dx * 0.07 * pull * it.strength;
+      it.ty = dy * 0.09 * pull * it.strength;
       it.el.style.setProperty('--pull', pull.toFixed(3));
     }
     kick();
@@ -204,6 +207,48 @@ function form() {
   });
 }
 
+/* ---------------------------------------------------------------- reveal */
+/**
+ * The editorial passages between the pinned scenes.
+ *
+ * Deliberately *not* scroll-linked: those sections are the silence, and copy
+ * that keeps responding to the wheel is not silent. One observer, one step per
+ * block, and it never runs again — so the state of a passage depends on
+ * whether the reader has reached it and on nothing else. Landing on a passage
+ * from a deep link, a refresh or a fast scroll gives the same finished frame.
+ */
+function reveals() {
+  const blocks = [...document.querySelectorAll('[data-reveal]')];
+  if (!blocks.length) return;
+
+  if (reduced()) {
+    for (const el of blocks) el.dataset.revealed = 'true';
+    return;
+  }
+
+  // Stagger index is assigned per block, in document order, once.
+  for (const block of blocks) {
+    const items = [...block.querySelectorAll('.reveal-line, .reveal-soft')];
+    items.forEach((el, i) => el.style.setProperty('--i', String(i)));
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.dataset.revealed = 'true';
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+  for (const el of blocks) {
+    // Anything already on screen at load is simply already revealed: a page
+    // that animates its own first paint has told the reader to wait for it.
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight * 0.9 && r.bottom > 0) el.dataset.revealed = 'true';
+    else io.observe(el);
+  }
+}
+
 /* ----------------------------------------------------------------- misc */
 function year() {
   for (const el of document.querySelectorAll('[data-year]')) {
@@ -237,6 +282,7 @@ export function initUI() {
   header();
   dock();
   navState();
+  reveals();
   projects();
   form();
   year();

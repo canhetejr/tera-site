@@ -57,7 +57,6 @@
   <path data-from="ui-series" data-to="[data-status]"></path>
   <path data-from="lab-vertice" data-to="#lab-title"></path>
 </svg>
-<div class="grain" aria-hidden="true"></div>
 
 <header class="header" data-header>
   <a class="brand" href="#topo" aria-label="Tera — início">
@@ -211,14 +210,12 @@
   <!-- ------------------------------------------------ silêncio: o que fazemos -->
   <section class="passage" id="capacidades" aria-labelledby="servicos-title">
     <div class="wrap">
-      <div class="passage__head">
+      <div class="passage__head" data-reveal>
         <div>
           <p class="index">004 / Serviços</p>
-          <h2 class="passage__title" id="servicos-title">
-            Tecnologia construída para o modo como a empresa realmente opera.
-          </h2>
+          <h2 class="passage__title" id="servicos-title"><span class="reveal-line"><span>Tecnologia construída para o modo como a empresa realmente opera.</span></span></h2>
         </div>
-        <p class="passage__intro">
+        <p class="passage__intro reveal-soft">
           Quando uma ferramenta pronta exige contornos, planilhas ou retrabalho,
           desenhamos a solução para as regras, as pessoas e os sistemas que já
           fazem parte do negócio.
@@ -322,14 +319,12 @@
   <!-- ------------------------------------------------- silêncio: os projetos -->
   <section class="passage" id="projetos" aria-labelledby="projetos-title">
     <div class="wrap">
-      <div class="passage__head">
+      <div class="passage__head" data-reveal>
         <div>
           <p class="index">006 / Projetos</p>
-          <h2 class="passage__title" id="projetos-title">
-            Produtos reais e caminhos possíveis.
-          </h2>
+          <h2 class="passage__title" id="projetos-title"><span class="reveal-line"><span>Produtos reais e caminhos possíveis.</span></span></h2>
         </div>
-        <p class="passage__intro">
+        <p class="passage__intro reveal-soft">
           Produtos da Tera em produção e estudos que mostram como um problema
           operacional vira fluxo, interface e arquitetura de software.
         </p>
@@ -525,14 +520,12 @@
   <!-- --------------------------------------------------- silêncio: o processo -->
   <section class="passage" id="processo" aria-labelledby="processo-title">
     <div class="wrap">
-      <div class="passage__head">
+      <div class="passage__head" data-reveal>
         <div>
           <p class="index">009 / Processo</p>
-          <h2 class="passage__title" id="processo-title">
-            Do problema definido ao software em produção.
-          </h2>
+          <h2 class="passage__title" id="processo-title"><span class="reveal-line"><span>Do problema definido ao software em produção.</span></span></h2>
         </div>
-        <p class="passage__intro">
+        <p class="passage__intro reveal-soft">
           Cada etapa reduz uma incerteza: o problema, o escopo, a solução e o que
           precisa evoluir depois do uso.
         </p>
@@ -603,14 +596,12 @@
   <!-- ---------------------------------------------------- silêncio: a origem -->
   <section class="passage passage--tight" id="origem" aria-labelledby="origem-title">
     <div class="wrap">
-      <div class="passage__head">
+      <div class="passage__head" data-reveal>
         <div>
           <p class="index">011 / Origem</p>
-          <h2 class="passage__title" id="origem-title">
-            Desenvolvimento de software em Maringá, com o problema perto.
-          </h2>
+          <h2 class="passage__title" id="origem-title"><span class="reveal-line"><span>Desenvolvimento de software em Maringá, com o problema perto.</span></span></h2>
         </div>
-        <p class="passage__intro">
+        <p class="passage__intro reveal-soft">
           A Tera reúne estratégia de produto, design e engenharia para construir
           soluções digitais sem separar quem entende o negócio de quem implementa
           a tecnologia.
@@ -624,13 +615,21 @@
        ACT V — a assinatura
        Everything built along the way reorganises into the Tera mark.
        ================================================================== -->
-  <section class="act" data-act="final:1" style="--len: 2.3" aria-label="Vamos construir">
+  <section class="act act--final" data-act="mark:1,final:1.35" style="--len: 3.4"
+           aria-label="Vamos construir">
     <div class="act__stage" data-stage>
       <div class="core-fallback" aria-hidden="true"></div>
-      <div class="scene-copy final" data-scene-copy="final" data-first>
+
+      <!-- ASSEMBLED. The mark arrives; the frame holds nothing else. -->
+      <div class="scene-copy mark-copy" data-scene-copy="mark" data-first>
         <p class="index">012 / Próximo</p>
+      </div>
+
+      <!-- SETTLED. The mark has become a rule; the headline takes the stage. -->
+      <div class="scene-copy final" data-scene-copy="final" data-last>
         <h2 class="final__title" id="final-title">
-          Tem uma ideia que deveria existir?
+          <span class="reveal-line"><span>Tem uma ideia que</span></span>
+          <span class="reveal-line"><span>deveria existir?</span></span>
         </h2>
         <p class="final__note">
           Conte o problema que o software precisa resolver. A primeira decisão é
@@ -647,12 +646,10 @@
   <!-- ----------------------------------------------------------- o contato -->
   <section class="passage" id="contato" aria-labelledby="contato-title">
     <div class="wrap contact">
-      <div>
+      <div data-reveal>
         <p class="index">013 / Contato</p>
-        <h2 class="passage__title" id="contato-title">
-          Conte o problema que o software precisa resolver.
-        </h2>
-        <p class="passage__intro" style="margin-top: 22px">
+        <h2 class="passage__title" id="contato-title"><span class="reveal-line"><span>Conte o problema que o software precisa resolver.</span></span></h2>
+        <p class="passage__intro reveal-soft" style="margin-top: 22px">
           Descreva o processo, o sistema ou o produto que precisa mudar. Essas
           informações ajudam a avaliar o contexto antes da primeira conversa.
         </p>
@@ -719,10 +716,10 @@
   <!-- --------------------------------------------------------------- dúvidas -->
   <section class="passage passage--tight" aria-labelledby="faq-title">
     <div class="wrap">
-      <div class="passage__head">
+      <div class="passage__head" data-reveal>
         <div>
           <p class="index">014 / Dúvidas</p>
-          <h2 class="passage__title" id="faq-title">Sobre software sob medida.</h2>
+          <h2 class="passage__title" id="faq-title"><span class="reveal-line"><span>Sobre software sob medida.</span></span></h2>
         </div>
       </div>
       <div class="faq">

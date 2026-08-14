@@ -52,6 +52,27 @@
   --hook: 14px;
   --hook-lg: 26px;
 
+  /* ---- the grid -------------------------------------------------------
+     Not a texture behind the page: the construction system the whole brand
+     is drawn on. Scenes borrow it by overriding these three values, so the
+     grid can carry a moment of construction and then step back out of an
+     editorial one — from one place, with one vocabulary. */
+  --grid-size: 96px;
+  --grid-line: var(--edge);
+  --grid-opacity: 0.34;
+
+  /* ---- depth ----------------------------------------------------------
+     Every layer on the page is named here. There are no other values; a
+     rule that needs a new one adds it to this list first. */
+  --z-background: 0;
+  --z-grid: 10;
+  --z-ambient: 20;   /* the Core: one system, never more than one */
+  --z-visual: 30;    /* things drawn onto the Core (connectors, captions) */
+  --z-content: 40;
+  --z-dock: 55;
+  --z-nav: 80;
+  --z-overlay: 100;
+
   --max: 1320px;
   --gutter: clamp(20px, 5vw, 68px);
   --rhythm: clamp(64px, 9vw, 136px);
@@ -125,7 +146,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   position: fixed;
   top: 12px;
   left: -9999px;
-  z-index: 200;
+  z-index: var(--z-overlay);
   padding: 12px 18px;
   background: var(--acid);
   color: var(--ink);
@@ -151,47 +172,41 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ------------------------------------------------------------- ambience */
-/* Never a flat dead colour: a field of coordinates, almost below threshold. */
+/* The construction grid. One ambient system on the page, and this is it —
+   there is deliberately no second layer of noise, dust or floating shapes
+   competing with it or with the Core. */
 .ambient {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: var(--z-grid);
   pointer-events: none;
-  opacity: 0.5;
+  opacity: var(--grid-opacity);
   background-image:
-    linear-gradient(to right, var(--edge) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--edge) 1px, transparent 1px);
-  background-size: 96px 96px;
-  mask-image: radial-gradient(120% 90% at 50% 30%, #000 20%, transparent 78%);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  mask-image: radial-gradient(125% 95% at 50% 32%, #000 30%, transparent 82%);
+  transition: opacity 700ms var(--ease-inout);
 }
-
-.grain {
-  position: fixed;
-  inset: -50%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-}
-@media (pointer: coarse) { .grain { display: none; } }
+/* Construction scenes lean on the grid; editorial ones let it go. The scene
+   id is written to <html> once per scene change, never per frame. */
+[data-scene='idea'], [data-scene='build'] { --grid-opacity: 0.6; }
+[data-scene='mark'], [data-scene='final'] { --grid-opacity: 0.2; }
 
 #tera-core {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: var(--z-ambient);
   width: 100%;
   height: 100%;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 900ms var(--ease-settle);
 }
-.has-core #tera-core { opacity: 1; transition: opacity 260ms linear; }
 
 #tera-connectors {
   position: fixed;
   inset: 0;
-  z-index: 3;
+  z-index: var(--z-visual);
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -209,7 +224,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .header {
   position: fixed;
   inset: 0 0 auto;
-  z-index: 60;
+  z-index: var(--z-nav);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -277,7 +292,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .progress {
   position: fixed;
   inset: 0 0 auto;
-  z-index: 61;
+  z-index: calc(var(--z-nav) + 1);
   height: 2px;
   background: var(--accent);
   transform: scaleX(0);
@@ -315,8 +330,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   background: var(--acid);
   color: var(--ink);
   font-size: 0.75rem;
-  /* The mark answers a little further than the surface does. */
-  transform: translate3d(calc(var(--mx, 0px) * 0.42), calc(var(--my, 0px) * 0.42), 0);
+  /* The mark answers a little further than the surface does — that difference
+     is the whole reason the control reads as an object rather than a div. */
+  transform: translate3d(calc(var(--mx, 0px) * 0.55), calc(var(--my, 0px) * 0.55), 0);
   transition: transform 200ms var(--ease-press), border-radius 400ms var(--ease-settle);
 }
 .btn:hover { border-radius: 0 0 var(--hook-lg) 0; }
@@ -401,7 +417,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    sections. Scrolling plays it. Nothing is hijacked and nothing is snapped. */
 .act {
   position: relative;
-  z-index: 4;
+  z-index: var(--z-content);
   height: calc(var(--len, 4) * var(--scene-scale, 1) * 100vh);
   height: calc(var(--len, 4) * var(--scene-scale, 1) * 100svh);
 }
@@ -422,17 +438,25 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   width: min(100% - var(--gutter) * 2, var(--max));
   margin-inline: auto;
   align-self: center;
-  /* Legible through the middle of its own scene, gone at both ends. The
-     fallback keeps the copy visible when no script is driving --p. */
-  opacity: clamp(0, min(
+  /* Legible through the middle of its own scene, gone at both ends, and never
+     stronger than the stage that owns it. --stage is the act's own ENTER /
+     ACTIVE / EXIT presence, so copy can neither appear before its stage has
+     taken the frame nor outlive it. The fallbacks keep everything readable
+     when no script is driving either value. */
+  opacity: calc(clamp(0, min(
     calc((var(--p, 0.5) - 0.015) / 0.10),
     calc((0.965 - var(--p, 0.5)) / 0.085)
-  ), 1);
+  ), 1) * var(--stage, 1));
 }
 /* The opening copy of an act has no predecessor to hand over from, so it is
-   present from the first pixel — the hero must never fade itself in. */
+   present from its stage's first pixel — the hero must never fade itself in. */
 .scene-copy[data-first] {
-  opacity: clamp(0, calc((0.965 - var(--p, 0.5)) / 0.085), 1);
+  opacity: calc(clamp(0, calc((0.965 - var(--p, 0.5)) / 0.085), 1) * var(--stage, 1));
+}
+/* The last copy on the page has nothing to hand over to: it holds until its
+   stage leaves rather than dissolving under the reader at the end of a scene. */
+.scene-copy[data-last] {
+  opacity: calc(clamp(0, calc((var(--p, 0.5) - 0.015) / 0.10), 1) * var(--stage, 1));
 }
 /* Copy that is fading is not clickable — otherwise an invisible CTA from the
    previous scene sits on top of the visible one. */
@@ -446,6 +470,47 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .fade-out {
   opacity: clamp(0, calc((var(--out, 1) - var(--p, 0)) / var(--span, 0.2)), 1);
+}
+
+/* ===================================================================== reveal
+   Two reveal languages on the whole page, and no third.
+
+     1. LINE REVEAL   a line of type rises out of its own clipping box.
+                      Headlines only — never a paragraph, never a whole page.
+     2. SOFT REVEAL   opacity and a few pixels of Y. Everything else.
+
+   Both are expressed here and driven from exactly one place per context: a
+   pinned scene drives them from --p (a pure function of the scroll), and an
+   editorial passage drives them from a single one-shot observer. Nothing on
+   this page reveals itself on a timer.
+   ===================================================================== */
+.reveal-line {
+  display: block;
+  overflow: clip;
+  /* Descenders and the acid dot need room, or a clipping box crops the type. */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+/* No transition here on purpose. A scrub-driven line (inside a pinned scene)
+   is positioned by --p every frame; a CSS transition on top of that would be a
+   second system owning the same transform, and the line would always arrive
+   slightly after the scroll asked for it. Only the observer-driven variant
+   below transitions, because there --r is a step. */
+.reveal-line > span { display: block; }
+
+[data-reveal] { --r: 0; }
+[data-reveal][data-revealed='true'] { --r: 1; }
+
+[data-reveal] .reveal-line > span {
+  transform: translateY(calc((1 - var(--r)) * 105%));
+  transition: transform 900ms var(--ease-settle);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+[data-reveal] .reveal-soft {
+  opacity: var(--r);
+  transform: translateY(calc((1 - var(--r)) * 12px));
+  transition: opacity 700ms var(--ease-inout), transform 700ms var(--ease-settle);
+  transition-delay: calc(120ms + var(--i, 0) * 60ms);
 }
 
 
@@ -586,7 +651,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: var(--z-visual);
   width: max-content;
   max-width: min(300px, 60vw);
   pointer-events: none;
@@ -597,9 +662,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   transform: translate(18px, -50%);
   padding: 10px 14px 11px;
   border: 1px solid var(--edge);
-  border-left: 1px solid var(--accent);
+  /* A caption names a real thing in the scene, so it is read, not sensed. It
+     carries its own surface at near-full opacity: legibility here cannot
+     depend on what the structure behind it happens to be doing. */
+  border-left: 2px solid var(--accent);
   border-radius: 0 0 10px 0;
-  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  background: color-mix(in srgb, var(--bg) 93%, transparent);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -696,7 +764,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 /* ------------------------------------------------------------ editorial */
 .passage {
   position: relative;
-  z-index: 4;
+  z-index: var(--z-content);
   padding-block: var(--rhythm);
 }
 .passage--tight { padding-block: clamp(48px, 6vw, 84px); }
@@ -841,6 +909,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding-top: 22px;
   border-top: 1px solid var(--edge);
 }
+/* `hidden` is a UA-sheet rule and loses to any class selector, so without this
+   every project shipped with its detail permanently open and the toggle did
+   nothing but rotate its own icon. */
+.project__detail[hidden] { display: none; }
 .project__detail {
   display: grid;
   gap: 22px;
@@ -985,6 +1057,20 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 @media (min-width: 860px) { .principles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 /* --------------------------------------------------------------- final */
+/* Two scenes share this stage. The first belongs entirely to the mark — the
+   only thing on screen is one index label. The second belongs entirely to the
+   headline: by the time it is legible the mark has resolved into a single
+   rule near the top of the frame and nothing else is moving. */
+/* The index sits at the top of the editorial column, clear of the mark's own
+   column. It is the only thing on screen next to the mark, and it must not
+   land on top of it. */
+.mark-copy {
+  align-self: start;
+  justify-items: start;
+  display: grid;
+  padding-top: clamp(96px, 12vh, 140px);
+}
+
 .final {
   display: grid;
   gap: clamp(18px, 2.6vw, 30px);
@@ -1000,6 +1086,36 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   text-wrap: balance;
 }
 .final__note { color: var(--dim); max-width: 48ch; text-wrap: pretty; }
+
+/* The headline is staged against its own scene progress, so its position is a
+   function of the scroll and nothing else — land anywhere in this scene twice
+   and you get the same frame twice. Sub-ranges, in scene-local --p:
+
+     0.00 → 0.34  the mark resolves onto the grid. Type stays out of the way.
+     0.34 → 0.62  headline, line by line
+     0.50 → 0.70  supporting sentence
+     0.60 → 0.78  call to action
+     0.78 → 1.00  silence. Nothing on this page moves again.
+
+   The hidden offset is 120%, not 100%: at 100% the tallest glyphs show a
+   one-pixel sliver at the very start of the ramp, which reads as debris on the
+   screen rather than as type about to arrive. */
+.final .reveal-line > span {
+  transform: translateY(calc((1 - clamp(0, (var(--p, 1) - 0.34) / 0.22, 1)) * 120%));
+}
+.final .reveal-line:nth-child(2) > span {
+  transform: translateY(calc((1 - clamp(0, (var(--p, 1) - 0.40) / 0.22, 1)) * 120%));
+}
+.final__note {
+  opacity: clamp(0, (var(--p, 1) - 0.50) / 0.20, 1);
+  transform: translateY(calc((1 - clamp(0, (var(--p, 1) - 0.50) / 0.20, 1)) * 14px));
+}
+/* Opacity only. The magnetic system owns this button's transform, and two
+   systems writing one property is how a control ends up in a state neither of
+   them intended. */
+.final .btn {
+  opacity: clamp(0, (var(--p, 1) - 0.60) / 0.18, 1);
+}
 
 /* -------------------------------------------------------------- contact */
 .contact {
@@ -1107,7 +1223,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 /* --------------------------------------------------------------- footer */
 .footer {
   position: relative;
-  z-index: 4;
+  z-index: var(--z-content);
   display: flex;
   flex-wrap: wrap;
   gap: 14px 32px;
@@ -1127,7 +1243,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   position: fixed;
   right: clamp(16px, 3vw, 34px);
   bottom: clamp(16px, 3vw, 30px);
-  z-index: 55;
+  z-index: var(--z-dock);
   opacity: 0;
   transform: translateY(14px) scale(0.97);
   pointer-events: none;
@@ -1173,7 +1289,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   position: fixed;
   left: 10px;
   bottom: 10px;
-  z-index: 999;
+  z-index: calc(var(--z-overlay) + 10);
   padding: 10px 12px;
   background: rgb(0 0 0 / 78%);
   color: #d7f75b;
@@ -1215,6 +1331,11 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
     margin: 8px auto 0;
   }
   .spatial__inner { transform: none; display: inline-block; }
-  #tera-core { opacity: 0.45; }
   .dock { display: none; }
+  /* The reveal system resolves to its finished state rather than to nothing:
+     the composition is the same one, it simply does not travel to get there. */
+  [data-reveal] { --r: 1; }
+  .reveal-line { overflow: visible; }
+  .reveal-line > span, .final .reveal-line > span { transform: none !important; }
+  .final__note, .final .btn { opacity: 1 !important; transform: none !important; }
 }

@@ -8,10 +8,35 @@
  * The whole experience reads one number from here: `cursor`, in [0, N].
  * Scene `i` owns [i, i+1]. Between two scenes (the editorial passages) the
  * cursor rests exactly on the boundary — that is where the silence lives.
+ *
+ * OWNERSHIP
+ * ---------
+ * The Core is drawn on one fixed, viewport-sized canvas, so without a rule it
+ * would sit over every editorial passage as well — which is exactly how a
+ * deliberate composition starts to read as a page that came apart. The rule is
+ * `stagePresence`: an act *owns* the canvas only while its own stage is on
+ * screen, and every act has three explicit phases —
+ *
+ *   ENTER   the act's top edge rises through the viewport   0 → 1
+ *   ACTIVE  the stage is pinned; the scenes play            1
+ *   EXIT    the stage scrolls away under the next passage   1 → 0
+ *
+ * Outside those three, presence is hard zero: the act is over, and nothing it
+ * built is allowed to keep existing quietly on top of the next section.
  */
 
-import { clamp, damp } from './math.js';
+import { clamp, damp, smoothstep } from './math.js';
 import { LAMBDA } from './durations.js';
+
+/**
+ * How much of a viewport height the ENTER and EXIT ramps take. Both finish
+ * well before the next passage's copy reaches reading position, so a passage
+ * is always read against a clean background.
+ */
+const ENTER_SPAN = 0.3;
+const EXIT_SPAN = 0.28;
+/** Below this, an act owns nothing and its scene is not drawn at all. */
+export const PRESENCE_EPSILON = 0.012;
 
 export class Timeline {
   /**
@@ -35,6 +60,8 @@ export class Timeline {
     this.documentProgress = 0;
     /** 1 while a pinned stage owns the viewport, 0 during the passages. */
     this.stagePresence = 1;
+    /** 'enter' | 'active' | 'exit' | 'off' — the owning act's current phase. */
+    this.stagePhase = 'enter';
 
     this._primed = false;
     this._lastWidth = 0;
@@ -147,17 +174,35 @@ export class Timeline {
     const y = scrollY;
     this.documentProgress = clamp(y / (this._maxScroll || 1));
 
-    // How much of the viewport a pinned stage currently owns. 1 while a scene
-    // is playing, falling to 0 through the editorial passages — which is what
-    // lets the Core step back and let the reading happen.
+    // Which act owns the canvas, and how completely.
+    //
+    // Measured against the act's *stage*, not against its scroll length: an act
+    // is 2–6 viewports tall, so overlap with the section would keep the Core on
+    // screen for a whole passage after its scene had finished. The stage is
+    // pinned from `act.start` for `act.travel`, then rides the section's last
+    // viewport out — those are the only pixels the act owns.
     const vh = innerHeight;
     let presence = 0;
+    let phase = 'off';
     for (const act of this.acts) {
-      const top = act.start - y;
-      const overlap = Math.min(top + act.height, vh) - Math.max(top, 0);
-      presence = Math.max(presence, clamp(overlap / vh));
+      const enter = smoothstep((y - (act.start - vh * ENTER_SPAN)) / (vh * ENTER_SPAN));
+      const past = y - (act.start + act.travel);
+      const exit = 1 - smoothstep(past / (vh * EXIT_SPAN));
+      const p = enter * exit;
+      act.presence = p;
+      // Copy is *inside* the stage, so it does not need the EXIT ramp: the
+      // stage physically carries it off the top of the screen. Fading it as
+      // well would dim a headline that still fills two thirds of the frame.
+      // The Core does need it — it is painted on a fixed canvas that would
+      // otherwise stay behind the next section.
+      act.entered = enter;
+      if (p > presence) {
+        presence = p;
+        phase = past > 0 ? 'exit' : y < act.start ? 'enter' : 'active';
+      }
     }
-    this.stagePresence = presence;
+    this.stagePresence = presence < PRESENCE_EPSILON ? 0 : presence;
+    this.stagePhase = this.stagePresence === 0 ? 'off' : phase;
 
     const segs = this.segments;
     if (!segs.length) {
@@ -190,6 +235,13 @@ export class Timeline {
     this.cursor = this.reduced
       ? this.target
       : damp(this.cursor, this.target, LAMBDA.scroll, dt);
+    // Damping approaches its target without ever arriving, so a cursor resting
+    // on a scene boundary through an editorial passage sits at 3.9999 or at
+    // 4.0001 depending on which way the reader came — the same composition,
+    // but on opposite sides of `floor`, which makes the scene id flicker and
+    // keeps the loop writing to the DOM at rest. Once it is this close it has
+    // arrived.
+    if (Math.abs(this.cursor - this.target) < 0.0005) this.cursor = this.target;
 
     const clamped = clamp(this.cursor, 0, this.count - 0.0001);
     const idx = Math.floor(clamped);

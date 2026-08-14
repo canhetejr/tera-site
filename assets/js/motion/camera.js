@@ -50,7 +50,11 @@ export class Camera {
   update(tl, dt, width, height) {
     const i = Math.min(tl.index, SCENES.length - 1);
     const scene = SCENES[i];
-    const t = this.reduced ? Math.round(tl.local) : inOut(tl.local);
+    // Most scenes want the standard both-ends curve. A scene may name its own
+    // when the camera has to arrive early and then hold — the mark has to be
+    // framed and still for most of its scene, not still arriving at the end.
+    const ease = scene.camera.ease || inOut;
+    const t = this.reduced ? Math.round(tl.local) : ease(tl.local);
 
     const from = scene.camera.from;
     const to = scene.camera.to;
@@ -70,13 +74,16 @@ export class Camera {
     this._pointer.y = damp(this._pointer.y, this.pointer.y * k, LAMBDA.pointer, dt);
 
     // Parallax scales with distance so close-up scenes stay stable and the
-    // wide ecosystem shot gets a real sense of volume.
-    const depth = clamp(ez / 40, 0.35, 1.6);
-    this.eye[0] = ex + this._pointer.x * 1.5 * depth;
-    this.eye[1] = ey - this._pointer.y * 0.95 * depth;
+    // wide shots keep a sense of volume. Deliberately small: a composition
+    // that swings when the reader moves the mouse is not a composition, and
+    // at the far end of the range the old amounts moved the whole scene by
+    // more than two world units. This is a breath, not a camera move.
+    const depth = clamp(ez / 40, 0.35, 1.15);
+    this.eye[0] = ex + this._pointer.x * 0.62 * depth;
+    this.eye[1] = ey - this._pointer.y * 0.4 * depth;
     this.eye[2] = ez;
-    this.look[0] = lx + this._pointer.x * 0.32 * depth;
-    this.look[1] = ly - this._pointer.y * 0.2 * depth;
+    this.look[0] = lx + this._pointer.x * 0.13 * depth;
+    this.look[1] = ly - this._pointer.y * 0.08 * depth;
     this.look[2] = lz;
 
     const aspect = width / Math.max(1, height);

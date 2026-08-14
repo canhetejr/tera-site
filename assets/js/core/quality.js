@@ -17,7 +17,6 @@ export const TIERS = {
     travel: 1,
     distance: 1,
     ambient: 1,
-    grain: true,
   },
   medium: {
     name: 'medium',
@@ -27,9 +26,8 @@ export const TIERS = {
     dpr: 1.6,
     parallax: 0.75,
     travel: 0.9,
-    distance: 1.02,
+    distance: 1.06,
     ambient: 0.8,
-    grain: true,
   },
   low: {
     name: 'low',
@@ -38,10 +36,13 @@ export const TIERS = {
     panels: 32,
     dpr: 1.4,
     parallax: 0,
-    travel: 0.55,
-    distance: 1.16,
+    travel: 0.5,
+    // A phone sees less than half the world width a desktop does at the same
+    // distance. Without a real pull-back the wide scenes arrive as a crop of a
+    // composition rather than as a composition, which is the difference
+    // between a small screen being designed for and being left over.
+    distance: 1.5,
     ambient: 0.55,
-    grain: false,
   },
 };
 
@@ -60,6 +61,19 @@ export function detectTier() {
   if (innerWidth * innerHeight > 3_500_000 && cores < 8) return TIERS.medium;
   return TIERS.high;
 }
+
+/**
+ * The lowest the governor may take the node budget.
+ *
+ * This is a composition constraint, not a performance one. Node indices are
+ * banded — structure, then detail, then ambient — and culling from the top
+ * removes ambient first. The floor is set above the ambient band so a slow
+ * device loses atmosphere and never loses the shape: the mark is the same mark
+ * on every machine, and the same mark on every reload. Anything that let the
+ * frame budget reach into the structure would mean the composition depended on
+ * the device's frame history, which is the one thing it must not do.
+ */
+export const QUALITY_FLOOR = 0.8;
 
 /**
  * Watches frame cost and steps the renderer down if the device cannot hold
@@ -95,8 +109,8 @@ export class Governor {
     const ratio = this.slow / this.samples;
     this.samples = 0;
     this.slow = 0;
-    if (ratio > 0.55 && this.level > 0.45) {
-      this.level = Math.max(0.45, this.level - 0.2);
+    if (ratio > 0.55 && this.level > QUALITY_FLOOR) {
+      this.level = Math.max(QUALITY_FLOOR, this.level - 0.1);
       this.onChange(this.level);
     }
   }

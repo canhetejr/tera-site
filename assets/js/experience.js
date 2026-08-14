@@ -24,6 +24,20 @@ import { createBindings } from './motion/transitions.js';
 const ORDER = SCENES.map((s) => s.id);
 
 /**
+ * The frame a caption is allowed to live in. `top` clears the header, `bottom`
+ * clears the dock; `fade` is how many pixels the caption takes to leave rather
+ * than to be clipped.
+ */
+const SAFE = { top: 118, bottom: 104, left: 20, right: 20, fade: 90 };
+
+/**
+ * A viewport tall enough that the camera sees roughly a third of the world
+ * width it does on a desktop. Scenes composed against the frame are rebuilt on
+ * either side of this line rather than scaled across it.
+ */
+const isNarrow = () => innerWidth / innerHeight < 0.95;
+
+/**
  * Points in the scene that the DOM is allowed to hold on to.
  * A label anchored here is not "positioned near the 3D thing" — it is at it.
  */
@@ -81,6 +95,8 @@ export class Experience {
       id: el.dataset.sceneCopy,
       base: ORDER.indexOf(el.dataset.sceneCopy),
       first: el.hasAttribute('data-first'),
+      isLast: el.hasAttribute('data-last'),
+      act: el.closest('[data-act]'),
       last: -1,
     })).filter((s) => s.base >= 0);
     this.anchorEls = [...document.querySelectorAll('[data-anchor]')];
@@ -107,6 +123,18 @@ export class Experience {
   _startCore() {
     const canvas = document.getElementById('tera-core');
     if (!canvas) return;
+    // Reduced motion is its own composition, not this one with the movement
+    // removed. The acts stop travelling and become static, stacked screens —
+    // and a single fixed, viewport-sized canvas cannot belong to any one of
+    // them any more, so it would be back to sitting over all of them. The page
+    // becomes what it already is underneath: type, grid and space, with every
+    // scene shown at its resolved state.
+    if (this.reduced) {
+      this.root.classList.add('no-core');
+      this.core = null;
+      this.canvas = canvas;
+      return;
+    }
     // A device that cannot spare the frames gets the same story in the DOM.
     try {
       this.core = new TeraCore(canvas, this.tier);
@@ -120,9 +148,8 @@ export class Experience {
       this.core = null;
       return;
     }
-    this.layouts = buildLayouts(this.tier.nodes);
-    for (const [key, layout] of Object.entries(this.layouts)) layout.key = key;
-    this.core.prepare(this.layouts);
+    this._narrow = isNarrow();
+    this._buildLayouts();
     this.governor = new Governor((level) => {
       this.core.quality = level;
       this.dpr = Math.max(1, this.dpr * 0.85);
@@ -131,6 +158,13 @@ export class Experience {
     this.dpr = Math.min(devicePixelRatio || 1, this.tier.dpr);
     this._resizeCore();
     this.root.classList.add('has-core');
+  }
+
+  _buildLayouts() {
+    this.layouts = buildLayouts(this.tier.nodes, { narrow: this._narrow });
+    for (const [key, layout] of Object.entries(this.layouts)) layout.key = key;
+    this.core.prepare(this.layouts);
+    this.core._panelCache?.clear();
   }
 
   _resizeCore() {
@@ -143,7 +177,16 @@ export class Experience {
     this._resizeTimer = setTimeout(() => {
       this.dpr = Math.min(devicePixelRatio || 1, this.tier.dpr);
       this._resizeCore();
+      // Crossing between a wide and a tall viewport is a different
+      // composition, not a scaled one, so the scenes that are composed against
+      // the frame are rebuilt. Anything short of that crossing reuses them.
+      const narrow = isNarrow();
+      if (this.core && narrow !== this._narrow) {
+        this._narrow = narrow;
+        this._buildLayouts();
+      }
       for (const c of this.connectors) c.dirty = true;
+      for (const el of this.anchorEls) el.__w = 0;
     }, 120);
   }
 
@@ -212,47 +255,80 @@ export class Experience {
 
     /* --------------------------------------------------------------- core */
     if (this.core) {
-      const focusState = this._focusState(tl);
-      this.event = clamp(
-        tl.weightOf('systems', 0.35) + tl.weightOf('capabilities', 0.35) * 0.8 + egg
-      );
-
-      const pal = paletteAt(this.light);
-      this.core.setPalette(pal.fg, pal.accent);
-      // Through an editorial passage the structure is still there, just no
-      // longer the thing being looked at.
       const presence = tl.stagePresence;
-      const recede = 0.22 + 0.78 * presence;
-      if (Math.abs(presence - (this._presenceWritten ?? -1)) > 0.01) {
-        this._presenceWritten = presence;
-        this.canvas.style.opacity = (0.05 + 0.95 * presence).toFixed(3);
+
+      if (presence === 0) {
+        // No act owns the viewport. The scene is not dimmed, it is over: the
+        // canvas is emptied and stays empty until the next stage takes the
+        // frame. Nothing from a finished act may sit on the passage below it.
+        this._clearCore();
+      } else {
+        const focusState = this._focusState(tl);
+        this.event = clamp(
+          tl.weightOf('systems', 0.35) + tl.weightOf('capabilities', 0.35) * 0.8 + egg
+        );
+
+        const pal = paletteAt(this.light);
+        this.core.setPalette(pal.fg, pal.accent);
+        this._writePresence(presence);
+        // With reduced motion there is nothing to redraw unless the reader has
+        // actually moved, so the loop idles instead of animating.
+        const still =
+          this.reduced &&
+          Math.abs(tl.cursor - (this._lastCursor ?? -1)) < 0.0004 &&
+          Math.abs(presence - (this._lastPresence ?? -1)) < 0.004;
+        this._lastCursor = tl.cursor;
+        this._lastPresence = presence;
+        if (!still) this.core.render({
+          from: scene.layout[0],
+          to: scene.layout[1],
+          // A scene may finish its morph before its scroll runs out, so the
+          // composition can be *held* rather than still arriving on the last
+          // pixel. Without this a structure that travels a long way reads as
+          // half-assembled for most of the scene that owns it.
+          t: scene.morph ? scene.morph(local) : local,
+          camera: this.camera,
+          time: this.time,
+          accent: this.accent,
+          event: this.event,
+          focus: focusState.index,
+          focusAmount: focusState.amount,
+          panelAlpha: presence,
+        });
+        this._writeAnchors(scene, local, presence);
+        this._drawConnectors();
+        this._cleared = false;
       }
-      // With reduced motion there is nothing to redraw unless the reader has
-      // actually moved, so the loop idles instead of animating.
-      const still =
-        this.reduced &&
-        Math.abs(tl.cursor - (this._lastCursor ?? -1)) < 0.0004 &&
-        Math.abs(presence - (this._lastPresence ?? -1)) < 0.004;
-      this._lastCursor = tl.cursor;
-      this._lastPresence = presence;
-      if (!still) this.core.render({
-        from: scene.layout[0],
-        to: scene.layout[1],
-        t: local,
-        camera: this.camera,
-        time: this.time,
-        accent: this.accent,
-        event: this.event,
-        focus: focusState.index,
-        focusAmount: focusState.amount,
-        panelAlpha: recede,
-      });
-      this._writeAnchors(scene, local, presence);
-      this._drawConnectors();
     }
 
     if (this.debug) this._writeDebug(tl);
     this.raf = this.visible ? requestAnimationFrame(this._frame) : 0;
+  }
+
+  _writePresence(presence) {
+    if (Math.abs(presence - (this._presenceWritten ?? -1)) < 0.008) return;
+    this._presenceWritten = presence;
+    this.canvas.style.opacity = presence.toFixed(3);
+  }
+
+  /**
+   * Hands the frame back to the page. Called the moment no act owns the
+   * viewport — the one place the whole system is allowed to end a scene.
+   */
+  _clearCore() {
+    if (this._cleared) return;
+    this._cleared = true;
+    this._writePresence(0);
+    this.canvas.style.opacity = '0';
+    this._presenceWritten = 0;
+    for (const el of this.anchorEls) {
+      el.dataset.on = '0';
+      el.style.opacity = '0';
+    }
+    for (const c of this.connectors) {
+      if (c.path.getAttribute('d')) c.path.removeAttribute('d');
+      c.path.style.opacity = '0';
+    }
   }
 
   /** Which capability the system is currently expressing. */
@@ -301,20 +377,37 @@ export class Experience {
   }
 
   _writeSceneProgress(tl) {
+    // An act's stage slides up into the viewport before it pins, and slides
+    // away after. Its copy has to belong to that window too — otherwise the
+    // opening copy of every act is already at full strength while the stage is
+    // still half below the fold, which is what makes a line of type look
+    // cropped rather than composed.
+    for (const act of tl.acts) {
+      const p = Math.round(act.entered * 100) / 100;
+      if (p !== act._written) {
+        act._written = p;
+        act.el.style.setProperty('--stage', String(p));
+      }
+    }
+
     for (const stage of this.stages) {
       const d = tl.cursor - stage.base;
       // Copies share one grid cell, so a scene that is not current has to be
       // pushed past the ends of its own visibility curve — not just left
       // unset, which is the state that means "no script running".
       const p = Math.round(clamp(d, -0.25, 1.25) * 500) / 500;
-      if (p !== stage.last) {
+      const owned = (stage.act?.entered ?? 1) > 0.55;
+      if (p !== stage.last || owned !== stage.owned) {
+        stage.owned = owned;
         stage.el.style.setProperty('--p', String(p));
         // Copy that is fading out must not keep catching clicks meant for the
         // copy fading in — they share the same grid cell. The same applies to
         // the keyboard: tabbing must never land on an invisible CTA. The text
         // itself stays in the accessibility tree, so nothing is hidden from a
         // screen reader — only the focus order is corrected.
-        const live = String((stage.first || p > 0.06) && p < 0.94);
+        const live = String(
+          owned && (stage.first || stage.isLast || p > 0.06) && (stage.isLast || p < 0.94)
+        );
         if (stage.el.dataset.live !== live) {
           stage.el.dataset.live = live;
           const on = live === 'true';
@@ -360,12 +453,35 @@ export class Experience {
         el.dataset.on = '0';
         continue;
       }
+
+      // A caption is only honest while the thing it names is comfortably
+      // inside the frame. Rather than letting it slide off an edge and get
+      // cropped mid-word, it fades as its anchor approaches one. The reserve
+      // on the right is the caption's own width — it opens to the right of
+      // its anchor point.
+      el.__w ||= el.offsetWidth || 300;
+      const inFrame =
+        smoothstep((p.x - SAFE.left) / SAFE.fade) *
+        smoothstep((innerWidth - SAFE.right - el.__w - p.x) / SAFE.fade) *
+        smoothstep((p.y - SAFE.top) / SAFE.fade) *
+        smoothstep((innerHeight - SAFE.bottom - p.y) / SAFE.fade);
+      if (inFrame < 0.02) {
+        if (el.dataset.on !== '0') {
+          el.dataset.on = '0';
+          el.style.opacity = '0';
+        }
+        continue;
+      }
       // A caption that belongs to the outgoing layout leaves early, and one
       // that belongs to the incoming layout waits until there is something to
       // point at. Otherwise both are on screen through the whole handover.
+      // A caption arrives quickly once there is something to point at and is
+      // then at full strength for the rest of the scene. Spread over half the
+      // scene it spent most of its life half-legible, which reads as a label
+      // that failed to load rather than as one that is arriving.
       const presence =
-        (a && b ? 1 : a ? 1 - drift(clamp(t / 0.42)) : drift(clamp((t - 0.28) / 0.5))) *
-        onStage * smoothstep(clamp((stage - 0.45) / 0.35));
+        (a && b ? 1 : a ? 1 - drift(clamp(t / 0.3)) : drift(clamp((t - 0.22) / 0.28))) *
+        onStage * smoothstep(clamp((stage - 0.55) / 0.3)) * inFrame;
       el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0)`;
       el.style.opacity = presence.toFixed(3);
       el.dataset.on = presence > 0.05 ? '1' : '0';

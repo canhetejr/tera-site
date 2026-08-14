@@ -163,7 +163,20 @@ const link = (a, b, o = {}) => ({ a, b, style: o.style ?? 0, energy: o.energy ??
 
 /* -------------------------------------------------------------- layouts */
 
-export function buildLayouts(n) {
+/**
+ * @param {number} n node budget
+ * @param {{narrow?: boolean}} [options] narrow = a tall viewport that sees only
+ *   about a third of the world width a desktop does. Not "the desktop scene,
+ *   smaller": the mark and the rule are rebuilt at sizes composed for it.
+ */
+export function buildLayouts(n, { narrow = false } = {}) {
+  MARK_H = narrow ? 10 : 6.2;
+  SETTLED_SPAN = narrow ? 5.4 : 12;
+  SETTLED_N = narrow ? 13 : 25;
+  measureMark();
+  measureArea();
+  _markCache.clear();
+
   const STRUCT = Math.round(n * 0.52);
   const DETAIL = Math.round(n * 0.30);
 
@@ -176,6 +189,7 @@ export function buildLayouts(n) {
     flow: flow(n, STRUCT, DETAIL),
     eco: eco(n, STRUCT, DETAIL),
     signature: signature(n),
+    settled: settled(n),
   };
 }
 
@@ -397,8 +411,9 @@ function lab(n, STRUCT, DETAIL) {
     })
   );
   panels.push(panel('core', 0, -0.4, 1.5, 2.6, 1.8, { alpha: 0.75, fill: 0.1, tone: 0.35 }));
-  // The product we just left, receding.
-  panels.push(panel('frame', UI.frame[0], UI.frame[1], 6, UI.frame[2] * 0.42, UI.frame[3] * 0.42, { alpha: 0.16 }));
+  // The product we just left used to recede as a ghost frame here. Removed:
+  // at 0.16 alpha it read as a rectangle someone forgot to delete rather than
+  // as depth, and the four lab sites already carry the idea.
 
   return { ...f, links, panels, sites, core };
 }
@@ -498,72 +513,159 @@ function eco(n, STRUCT, DETAIL) {
   for (let c = 1; c < clusters.length; c++) {
     links.push(link(clusters[c].start, clusters[Math.floor(c / 2)].start, { energy: 0.22 }));
   }
-  const panels = clusters.slice(0, 20).map((c, i) =>
-    panel(`eco-${i}`, c.x, c.y, c.z, c.w, c.h, { alpha: 0.34, fill: 0.03, tone: i === 0 ? 0.4 : 0 })
+  // Fewer surfaces, each actually visible. Twenty near-transparent rectangles
+  // read as dirt on the screen; twelve that are properly drawn read as a
+  // territory — and this scene is a wide shot, so it can afford the contrast.
+  const panels = clusters.slice(0, 12).map((c, i) =>
+    panel(`eco-${i}`, c.x, c.y, c.z, c.w, c.h, { alpha: 0.52, fill: 0.05, tone: i === 0 ? 0.45 : 0 })
   );
   return { ...f, links, panels, clusters };
 }
 
-/**
- * FINAL — every element built during the journey reorganises into the mark.
- * Geometry lifted directly from assets/images/tera_simbolo_oficial_preta.svg
+/* ------------------------------------------------------------ the mark
+ * The Tera mark, built out of the same nodes that have been carrying the whole
+ * page. Geometry lifted directly from assets/images/tera_simbolo_oficial_preta.svg
  * so the shape on screen is the shape in the brand files, not a redraw.
+ *
+ * It is a framed object, not a particle system. Two numbers define it and
+ * every derived position comes from them, so the composition is identical on
+ * a 2560px display and on a phone — only the density changes.
  */
-function signature(n) {
-  const rng = seeded(0x7f44);
-  const f = new Field(n);
 
-  // Sized and lifted so the mark reads as a mark — held in the upper field,
-  // with clean air beneath it for the one sentence that is left.
-  const K = 0.0382 * 0.72;
-  const LIFT = 7.1;
+/**
+ * World height of the mark, and the reach of the rule it resolves into.
+ *
+ * A tall narrow viewport sees roughly a third of the world width a desktop
+ * does, so the same numbers would give a mark occupying a quarter of a phone
+ * screen and a rule whose dots are almost all off both edges. These are the
+ * two values that recompose the scene rather than scaling it: on a phone the
+ * mark is *larger* in world units so it reads at about 70% of the width, and
+ * the rule is short enough that its dots stay in frame.
+ */
+let MARK_H = 6.2;
+let SETTLED_SPAN = 12;
+/** Centre of the mark in world Y. Everything below it is the headline's. */
+const MARK_Y = 5.0;
+/** Dots in the rule the mark resolves into. */
+let SETTLED_N = 25;
+
+let MARK;
+function measureMark() {
+  const K = MARK_H / 342;
   const sx = (x) => (x - 170) * K;
-  const sy = (y) => -(y - 171) * K + LIFT;
+  const sy = (y) => -(y - 171) * K + MARK_Y;
+  MARK = {
+    K,
+    sx,
+    sy,
+    halfW: 170 * K,
+    halfH: 171 * K,
+    bar: { x0: sx(0), x1: sx(262), y0: sy(68), y1: sy(0) },
+    stem: { x0: sx(90), x1: sx(174), y0: sy(270), y1: sy(68) },
+    foot: { x0: sx(90), x1: sx(225), y0: sy(336), y1: sy(270) },
+    dot: { cx: sx(294), cy: sy(296), r: 46 * K },
+    /** The Y the bar sits on. The mark disperses onto exactly this line. */
+    barY: (sy(0) + sy(68)) / 2,
+    hook: 0.45 * (MARK_H / 8.6),
+  };
+  return MARK;
+}
+measureMark();
 
-  // bar / stem / foot / dot, in SVG units.
-  const BAR = { x0: sx(0), x1: sx(262), y0: sy(68), y1: sy(0) };
-  const STEM = { x0: sx(90), x1: sx(174), y0: sy(270), y1: sy(68) };
-  const FOOT = { x0: sx(90), x1: sx(225), y0: sy(336), y1: sy(270) };
-  const DOT = { cx: sx(294), cy: sy(296), r: 46 * K };
-
-  const step = 0.235 * 0.72;
-  const inBar = (x, y) => x >= BAR.x0 && x <= BAR.x1 && y >= BAR.y0 && y <= BAR.y1;
-  const inStem = (x, y) => x >= STEM.x0 && x <= STEM.x1 && y >= STEM.y0 && y <= STEM.y1;
+/** Scans the mark's outline at a given step and returns every cell inside it. */
+function scanMark(step) {
+  const m = MARK;
+  const inRect = (r, x, y) => x >= r.x0 && x <= r.x1 && y >= r.y0 && y <= r.y1;
   const inFoot = (x, y) => {
-    if (x < FOOT.x0 || x > FOOT.x1 || y < FOOT.y0 || y > FOOT.y1) return false;
+    if (!inRect(m.foot, x, y)) return false;
     // The one radius, exactly where the mark puts it.
-    const rx = FOOT.x1 - 0.45;
-    const ry = FOOT.y0 + 0.45;
-    if (x > rx && y < ry) return Math.hypot(x - rx, y - ry) <= 0.45;
+    const rx = m.foot.x1 - m.hook;
+    const ry = m.foot.y0 + m.hook;
+    if (x > rx && y < ry) return Math.hypot(x - rx, y - ry) <= m.hook;
     return true;
   };
-  const inDot = (x, y) => Math.hypot(x - DOT.cx, y - DOT.cy) <= DOT.r;
-
   const slots = [];
-  for (let y = LIFT - 5.4; y <= LIFT + 5.4; y += step) {
-    for (let x = -5.4; x <= 4.8; x += step) {
-      if (inBar(x, y) || inStem(x, y) || inFoot(x, y)) slots.push([x, y, 0]);
-      else if (inDot(x, y)) slots.push([x, y, 0.2]);
+  for (let y = MARK_Y - m.halfH; y <= MARK_Y + m.halfH; y += step) {
+    for (let x = -m.halfW; x <= m.halfW + step; x += step) {
+      if (inRect(m.bar, x, y) || inRect(m.stem, x, y) || inFoot(x, y)) slots.push([x, y, 0]);
+      else if (Math.hypot(x - m.dot.cx, y - m.dot.cy) <= m.dot.r) slots.push([x, y, 0.18]);
     }
   }
+  return slots;
+}
 
-  const take = Math.min(slots.length, Math.round(n * 0.66));
+/** The mark's area in world units. Re-measured whenever the mark is resized. */
+let MARK_AREA = 0;
+function measureArea() {
+  const s = MARK_H / 100;
+  MARK_AREA = scanMark(s).length * s * s;
+}
+measureArea();
+
+/**
+ * The mark at a given dot count.
+ *
+ * The step is solved from the budget rather than the budget being sampled out
+ * of a fixed raster — subsampling a raster leaves a dither pattern through the
+ * stem and the shape reads as half-loaded. Solving for the step gives an even
+ * field at any density, so the mark is the same mark at 420 dots and at 1150.
+ */
+const _markCache = new Map();
+function markSlots(target) {
+  let slots = _markCache.get(target);
+  if (slots) return slots;
+  slots = scanMark(Math.sqrt(MARK_AREA / target));
+  _markCache.set(target, slots);
+  return slots;
+}
+
+/** How much of the node budget the mark itself occupies. Everything above this
+ *  index is parked at size 0 — the mark is the composition, not a layer on top
+ *  of one. Kept under the quality governor's floor so the shape never loses
+ *  dots on a slower device, and under the ambient band so no mark dot ever
+ *  picks up the ambient drift. */
+const MARK_SHARE = 0.7;
+const markCount = (n) => Math.round(n * MARK_SHARE);
+
+/** ASSEMBLED — the mark, whole, centred, framed. Nothing else on screen. */
+function signature(n) {
+  const f = new Field(n);
+  const slots = markSlots(markCount(n));
+  for (const s of slots) {
+    if (f.left <= 0) break;
+    f.put(s[0], s[1], s[2], 0.052, s[2] > 0 ? 0.3 : 0, SHAPE.dot);
+  }
+  // No halo, no ambient. Silence is the point of this scene.
+  while (f.i < f.n) f.put(0, MARK_Y, 0, 0);
+  return { ...f, links: [], panels: [] };
+}
+
+/**
+ * SETTLED — the mark finds the grid and stops being a mark.
+ *
+ * Every dot that made the bar of the T lands on one horizontal line of grid
+ * nodes at exactly the bar's own height; every other dot resolves to nothing,
+ * in place. What is left is a rule across the top of the frame and a great
+ * deal of air, which is the whole point: the headline underneath has no
+ * competition left.
+ */
+function settled(n) {
+  const f = new Field(n);
+  const take = Math.min(n, markSlots(markCount(n)).length);
+  const stride = Math.max(1, Math.floor(take / SETTLED_N));
   for (let k = 0; k < take; k++) {
-    const s = slots[Math.floor((k / take) * slots.length)];
-    f.put(s[0], s[1], s[2], 0.05, s[2] > 0 ? 0.25 : 0, 0);
+    const j = k / stride;
+    if (Number.isInteger(j) && j < SETTLED_N) {
+      const t = SETTLED_N === 1 ? 0.5 : j / (SETTLED_N - 1);
+      // The dot of the mark survives as the dot that closes the line.
+      const last = j === SETTLED_N - 1;
+      f.put(-SETTLED_SPAN + t * SETTLED_SPAN * 2, MARK.barY, 0, last ? 0.075 : 0.045,
+        last ? 1 : 0, SHAPE.dot);
+    } else {
+      // Resolved. Shrinks where it stands rather than flying anywhere.
+      f.put(0, MARK_Y, 0, 0);
+    }
   }
-
-  // Everything that is not the mark is still here, holding the space.
-  const halo = f.left;
-  for (let k = 0; k < halo; k++) {
-    const a = k * 2.399963;
-    const r = 8 + Math.sqrt(k / Math.max(1, halo)) * 30;
-    f.put(Math.cos(a) * r, 2.6 + Math.sin(a) * r * 0.55, -6 - rng() * 26, 0.022);
-  }
-
-  return {
-    ...f,
-    links: [],
-    panels: [panel('signature', -0.3, LIFT - 0.1, -0.6, 11.2, 11.2, { alpha: 0.14 })],
-  };
+  while (f.i < f.n) f.put(0, MARK_Y, 0, 0);
+  return { ...f, links: [], panels: [] };
 }

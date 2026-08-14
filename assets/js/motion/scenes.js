@@ -13,7 +13,61 @@
 
 import * as E from './easings.js';
 
-/** @typedef {'boot'|'idea'|'build'|'product'|'lab'|'systems'|'capabilities'|'ecosystem'|'final'} SceneId */
+/**
+ * OWNERSHIP
+ * =========
+ * Every visual element on this page belongs to exactly one region, and leaves
+ * with it. The only things that outlive a region are the background, the grid,
+ * the header and the dock — and that list is closed.
+ *
+ * The Core is drawn on one fixed canvas, so "belongs to" is enforced rather
+ * than assumed: an act owns the canvas only through its own ENTER · ACTIVE ·
+ * EXIT window (see timeline.js), and outside that window the canvas is emptied
+ * rather than dimmed. An editorial passage is therefore always read against
+ * type, grid and space, and never against the leftovers of the scene above it.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ * ACT I · da ideia ao produto            owns: dust → lattice → wire → ui
+ *   boot     the frame is almost empty; six objects and one line
+ *   idea     the objects resolve into coordinates: order before form
+ *   build    the coordinates describe areas; four build steps lock in
+ *   product  the areas fill; the status flips from prototype to operating
+ *   exit     the structure leaves; the services passage is read in silence
+ *
+ * PASSAGE · serviços                     owns: type only
+ *
+ * ACT II · o laboratório                 owns: lab
+ *   lab      the product turns out to be one of four; captions name them
+ *   exit     the systems go; the projects passage is read in silence
+ *
+ * PASSAGE · projetos                     owns: type and the project cards
+ *
+ * ACT III · sistemas e capacidades       owns: flow
+ *   systems       an event crosses five stations; the flow steps follow it
+ *   capabilities  five capabilities, one lit at a time
+ *   exit     the routing goes; the process passage is read in silence
+ *
+ * PASSAGE · processo                     owns: type only
+ *
+ * ACT IV · o ecossistema                 owns: eco
+ *   ecosystem  the widest shot on the page: the whole territory at once
+ *
+ * PASSAGE · origem                       owns: type only
+ *
+ * ACT V · a assinatura                   owns: signature → settled
+ *   mark     ASSEMBLED. Everything built becomes the mark, whole and framed,
+ *            and the environment inverts to paper on the same beat.
+ *   final    SETTLED. The mark's dots find the grid and resolve into one rule
+ *            at the height of the T's own bar; the headline takes the floor;
+ *            all movement stops.
+ *   exit     the canvas is emptied before the contact form is in reading
+ *            position — nothing from the mark survives into it.
+ *
+ * PASSAGE · contato + dúvidas            owns: type and the form
+ * ─────────────────────────────────────────────────────────────────────────
+ */
+
+/** @typedef {'boot'|'idea'|'build'|'product'|'lab'|'systems'|'capabilities'|'ecosystem'|'mark'|'final'} SceneId */
 
 export const SCENES = [
   {
@@ -73,13 +127,43 @@ export const SCENES = [
     accent: { from: 0.16, to: 0.06, ease: E.drift },
   },
   {
-    id: 'final',
+    // ASSEMBLED. Everything built along the way arrives as the mark, whole and
+    // centred, and the environment inverts to paper on the same beat. This is
+    // the loudest moment on the page, and it is one object.
+    id: 'mark',
     layout: ['eco', 'signature'],
-    // Framed slightly high so the mark owns the upper field and the single
-    // remaining sentence has clean air beneath it.
-    camera: { from: [0, 4.5, 96], to: [0, 3.2, 30], look: [0, 0, -10], lookTo: [0, 3.2, 0] },
+    // The mark is whole by 58% of the scene and holds for the rest. The
+    // ecosystem's nodes travel sixty world units to get here; left linear they
+    // would still be visibly in flight at the end of the beat, and the loudest
+    // moment on the page would never actually resolve.
+    morph: (t) => Math.min(1, t / 0.58),
+    // `settle` rather than the usual both-ends curve: the camera commits
+    // immediately and spends the rest of the scene holding the frame, so the
+    // mark is assembled and still for most of the beat instead of arriving on
+    // the last pixel of it.
+    camera: {
+      from: [0, 4.5, 96], to: [0, 3.2, 26], look: [0, 0, -10], lookTo: [0, 3.2, 0],
+      ease: E.settle,
+    },
     light: { from: 0.0, to: 1.0, ease: E.snap },
-    accent: { from: 0.06, to: 0.55, ease: E.settle },
+    accent: { from: 0.06, to: 0.5, ease: E.settle },
+  },
+  {
+    // SETTLED. The mark finds the grid and resolves into a single rule; the
+    // camera all but stops. What is left is a headline, a sentence and a CTA
+    // with nothing competing for them.
+    id: 'final',
+    layout: ['signature', 'settled'],
+    // The one move in this scene: a vertical pan of under two world units that
+    // lifts the resolving mark out of the centre and opens the floor for the
+    // headline. `settle` so it is finished by the time the type arrives — from
+    // there to the end of the page nothing moves at all.
+    camera: {
+      from: [0, 3.2, 26], to: [0, 1.5, 25.2], look: [0, 3.2, 0], lookTo: [0, 1.5, 0],
+      ease: E.settle,
+    },
+    light: { from: 1.0, to: 1.0, ease: E.drift },
+    accent: { from: 0.5, to: 0.34, ease: E.drift },
   },
 ];
 

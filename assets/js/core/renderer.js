@@ -9,7 +9,7 @@
 
 import { createContext, createProgram, createQuad, createStream, createVAO } from './gl.js';
 import { hookedRoute, routePoint, HOOK } from './grammar.js';
-import { clamp, lerp, project } from '../motion/math.js';
+import { clamp, lerp, project, smoothstep } from '../motion/math.js';
 import { settle, pulse as pulseEase } from '../motion/easings.js';
 import { STAGGER, AMBIENT } from '../motion/durations.js';
 
@@ -433,8 +433,10 @@ export class TeraCore {
       out[w + 2] = z;
       out[w + 3] = size;
       // Ambient material stays in the background where it belongs: present,
-      // never competing with the structure that carries the meaning.
-      out[w + 4] = size > 0.002 ? (i >= detailStart ? 0.4 : 1) : 0;
+      // never competing with the structure that carries the meaning. It is the
+      // only part of the population allowed to read as atmosphere, and it is
+      // held well under the structure so it never reads as scattered debris.
+      out[w + 4] = size > 0.002 ? (i >= detailStart ? 0.28 : 1) : 0;
       out[w + 5] = tone;
       out[w + 6] = k < 0.5 ? A.meta[ai + 2] : B.meta[ai + 2];
       w += NODE_STRIDE;
@@ -537,8 +539,14 @@ export class TeraCore {
       if (count >= this.maxPanels) break;
       const a = m.a;
       const b = m.b;
-      const alpha = lerp(a ? a.alpha : 0, b ? b.alpha : 0, t);
-      if (alpha < 0.004) continue;
+      // A surface that exists on both sides transforms, and its alpha can be
+      // lerped. A surface that exists on only one side has to *leave*, and a
+      // linear alpha means it spends the whole morph at a few percent — which
+      // is not depth, it is a rectangle nobody removed. Those resolve inside
+      // the first (or last) 45% of the morph and are then genuinely gone.
+      const k = a && b ? t : b ? smoothstep((t - 0.55) / 0.45) : smoothstep(t / 0.45);
+      const alpha = lerp(a ? a.alpha : 0, b ? b.alpha : 0, k);
+      if (alpha < 0.012) continue;
       const src = a || b;
       const dst = b || a;
       out[w] = lerp(src.x, dst.x, t);
