@@ -115,11 +115,18 @@
 
     .ai-disclaimer{display:flex;gap:10px;align-items:flex-start;background:#1c1c19;border:1px solid #2c2c2a;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:12.5px;line-height:1.5;color:#aaa69f}
     .ai-disclaimer b{color:var(--acid)}
-    .ai-thread{display:flex;flex-direction:column;gap:12px;max-height:360px;overflow-y:auto;padding-right:4px;margin-bottom:18px}
-    .ai-msg{max-width:88%;padding:12px 15px;border-radius:14px;font-size:14.5px;line-height:1.5;margin:0;animation:ai-msg-in .25s ease both}
+    .ai-thread{display:flex;flex-direction:column;gap:12px;max-height:min(420px,52vh);overflow-y:auto;overflow-x:hidden;padding-right:4px;margin-bottom:18px;scroll-behavior:smooth}
+    .ai-msg{max-width:88%;padding:12px 15px;border-radius:14px;font-size:14.5px;line-height:1.5;margin:0;animation:ai-msg-in .25s ease both;overflow-wrap:break-word;word-break:break-word}
     @keyframes ai-msg-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
     .ai-msg.bot{background:#1c1c19;border:1px solid #2c2c2a;align-self:flex-start;border-bottom-left-radius:4px}
     .ai-msg.user{background:var(--acid);color:var(--ink);align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+    .ai-msg p{margin:0 0 8px}
+    .ai-msg p:last-child{margin-bottom:0}
+    .ai-msg ul{margin:0 0 8px;padding-left:18px}
+    .ai-msg ul:last-child{margin-bottom:0}
+    .ai-msg li{margin:0 0 4px}
+    .ai-msg strong{color:var(--acid)}
+    .ai-msg.user strong{color:var(--ink)}
     .ai-msg.typing{display:inline-flex;gap:9px;align-items:center;padding:13px 16px}
     .ai-msg.typing .ai-dots{display:inline-flex;gap:5px;align-items:center;flex:none}
     .ai-msg.typing .ai-dots i{width:6px;height:6px;border-radius:50%;background:#6f6d67;animation:ai-blink 1.1s infinite ease-in-out}
@@ -142,13 +149,28 @@
     #sucesso-banner{display:none}
     #sucesso-banner:target{display:block}
 
+    #print-briefing{display:none}
+    @media print{
+      body *{visibility:hidden}
+      #print-briefing,#print-briefing *{visibility:visible}
+      #print-briefing{display:block;position:absolute;left:0;top:0;width:100%;background:#fff;color:#101010;padding:56px 60px;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+      .print-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+      .print-header svg{width:38px;height:38px;color:#101010}
+      .print-header span{font-size:19px;font-weight:900;letter-spacing:-.03em}
+      .print-bar{height:5px;background:#d7f75b;width:64px;margin-bottom:28px}
+      #print-briefing h1{font-size:26px;font-weight:800;margin:0 0 26px;letter-spacing:-.02em}
+      #print-fields dt{font:750 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;color:#77746e;margin-top:18px}
+      #print-fields dd{margin:4px 0 0;font-size:15.5px;line-height:1.5}
+      .print-footer{margin-top:48px;font-size:11px;color:#77746e;letter-spacing:.03em}
+    }
+
     footer.site-footer{width:min(calc(100% - 48px),var(--max));margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:#77746e;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:25px 0 36px;border-top:1px solid #262624}
     .footer-brand{color:var(--white);font-weight:900}
 
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wizard-step.active,.contact-value.visible{animation:none}*{transition-duration:.01ms!important}}
 
     @media(max-width:900px){nav a:not(.nav-cta){display:none}}
-    @media(max-width:640px){.wrap{width:min(calc(100% - 32px),var(--max))}header{height:74px}.brand-word{font-size:17px}.brand-mark{width:36px;height:36px}.nav-cta{padding:12px 15px}.briefing-stage{padding:34px 14px}.briefing-card{padding:28px 22px 26px;box-shadow:8px 8px 0 var(--acid)}.wizard-nav{flex-wrap:wrap}.wizard-next,.wizard-submit,.start-button{width:100%;justify-content:space-between}.wizard-back{order:2}footer.site-footer{display:block;line-height:2;width:min(calc(100% - 32px),var(--max))}}
+    @media(max-width:640px){.wrap{width:min(calc(100% - 32px),var(--max))}header{height:74px}.brand-word{font-size:17px}.brand-mark{width:36px;height:36px}.nav-cta{padding:12px 15px}.briefing-stage{padding:34px 14px}.briefing-card{padding:28px 22px 26px;box-shadow:8px 8px 0 var(--acid)}.wizard-nav{flex-wrap:wrap}.wizard-next,.wizard-submit,.start-button{width:100%;justify-content:space-between}.wizard-back{order:2}footer.site-footer{display:block;line-height:2;width:min(calc(100% - 32px),var(--max))}.ai-thread{max-height:min(340px,48vh)}.ai-msg{max-width:94%;font-size:14px}.ai-form textarea{font-size:16px}}
   </style><link rel="stylesheet" href="assets/css/menu.css">
 <script src="assets/js/menu.js" defer></script>
 </head><body><div class="preloader" id="preloader" aria-hidden="true"><div class="preloader-inner"><svg class="preloader-mark" viewBox="0 0 340 342"><rect x="0" y="0" width="262" height="68" fill="currentColor"/><path d="M90 68h84v160c0 28 13 42 38 42h13v66h-35c-58 0-100-41-100-98z" fill="currentColor"/><circle cx="294" cy="296" r="46"/></svg><div class="preloader-label">TERA / INICIANDO MOVIMENTO</div></div></div><div class="cursor-aura" id="cursor-aura" aria-hidden="true"></div><div id="scroll-progress" aria-hidden="true"></div><a class="skip" href="#conteudo">Pular para o conteúdo</a><div class="wrap"><header><a class="brand" href="index.html" aria-label="Tera início"><svg class="brand-mark" viewBox="0 0 340 342" role="img" aria-label="Símbolo oficial da Tera"><rect x="0" y="0" width="262" height="68" fill="currentColor"/><path d="M90 68h84v160c0 28 13 42 38 42h13v66h-35c-58 0-100-41-100-98z" fill="currentColor"/><circle cx="294" cy="296" r="46" fill="currentColor"/></svg><span class="brand-word">TERA</span></a><nav aria-label="Navegação principal"><a href="index.html">Início</a><a href="servicos.html">Serviços</a><a href="projetos.html">Projetos</a><a href="sobre.html">Sobre</a><a href="briefing.html" class="nav-cta nav-active">Falar sobre um projeto ↗</a></nav></header></div><main id="conteudo"><section class="briefing-stage" aria-labelledby="briefing-title"><div class="briefing-orbit-backdrop" aria-hidden="true"><canvas id="briefing-orbit"></canvas></div><div class="briefing-vignette" aria-hidden="true"></div>
@@ -234,7 +256,7 @@
       <div class="review-row"><span>Contato</span><b id="review-contato">—</b></div>
     </div>
   </details>
-  <button type="button" class="download-link" data-action="download">Baixar briefing (.txt) ↓</button>
+  <button type="button" class="download-link" data-action="download">Baixar briefing (PDF) ↓</button>
   <noscript><p class="hint" style="margin-top:16px">Revise as respostas preenchidas acima antes de clicar em enviar.</p></noscript>
   <p class="wizard-error" data-error-for="5"></p>
   <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><span></span></div>
@@ -266,6 +288,14 @@
   <div class="wizard-nav" style="margin-top:18px"><button type="button" class="wizard-back" data-action="close-ai">← Voltar para o briefing</button><span></span></div>
 </div>
 
+</div>
+
+<div id="print-briefing" aria-hidden="true">
+  <div class="print-header"><svg viewBox="0 0 340 342" role="img" aria-label="Símbolo oficial da Tera"><rect x="0" y="0" width="262" height="68" fill="currentColor"/><path d="M90 68h84v160c0 28 13 42 38 42h13v66h-35c-58 0-100-41-100-98z" fill="currentColor"/><circle cx="294" cy="296" r="46" fill="currentColor"/></svg><span>TERA</span></div>
+  <div class="print-bar"></div>
+  <h1>Briefing do Projeto</h1>
+  <dl id="print-fields"></dl>
+  <p class="print-footer">Gerado em <span id="print-date"></span> · teralabs.cloud</p>
 </div>
 
 </section></main><footer class="site-footer"><span class="footer-brand">TERA</span><span>Innovation and Technology · © 2026</span><span>Maringá / Paraná / Brasil</span></footer>
@@ -404,26 +434,16 @@
   });
 
   document.querySelector('[data-action="download"]').addEventListener('click', () => {
-    const linhas = [
-      'BRIEFING — TERA',
-      '',
-      `Nome: ${state.nome || 'Não informado'}`,
-      `Empresa: ${state.empresa || 'Projeto pessoal / sem empresa ainda'}`,
-      `Ideia: ${state.ideia || '—'}`,
-      `Contato: ${state.metodo ? `${state.metodo} — ${state.valor}` : '—'}`,
-      '',
-      `Gerado em ${new Date().toLocaleString('pt-BR')}`,
-    ].join('\n');
-    const blob = new Blob([linhas], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const slug = (state.nome || 'projeto').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `briefing-tera-${slug || 'projeto'}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    const campos = [
+      ['Nome', state.nome || 'Não informado'],
+      ['Empresa', state.empresa || 'Projeto pessoal / sem empresa ainda'],
+      ['Ideia', state.ideia || '—'],
+      ['Contato', state.metodo ? `${state.metodo} — ${state.valor}` : '—'],
+    ];
+    const dl = document.getElementById('print-fields');
+    dl.innerHTML = campos.map(([k, v]) => `<dt>${k}</dt><dd>${String(v).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</dd>`).join('');
+    document.getElementById('print-date').textContent = new Date().toLocaleString('pt-BR');
+    window.print();
   });
 
   const ideiaEl = document.getElementById('ideia'), ideiaCount = document.getElementById('ideia-count');
@@ -481,10 +501,34 @@
   let aiSessionId = null;
   let aiStarted = false;
 
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function formatAiText(text) {
+    const lines = escapeHtml(text).split('\n');
+    let html = '';
+    let inList = false;
+    for (const line of lines) {
+      const bullet = line.match(/^\s*[-•]\s+(.*)/);
+      if (bullet) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${bullet[1]}</li>`;
+        continue;
+      }
+      if (inList) { html += '</ul>'; inList = false; }
+      if (line.trim() === '') continue;
+      html += `<p>${line}</p>`;
+    }
+    if (inList) html += '</ul>';
+    return html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
+  }
+
   function addAiMessage(role, text) {
-    const p = document.createElement('p');
+    const p = document.createElement('div');
     p.className = `ai-msg ${role}`;
-    p.textContent = text;
+    if (role === 'bot') p.innerHTML = formatAiText(text);
+    else p.textContent = text;
     aiThread.appendChild(p);
     aiThread.scrollTop = aiThread.scrollHeight;
     return p;
@@ -493,7 +537,7 @@
   const AI_STATUS_MESSAGES = ['Lendo o briefing…', 'Pensando…', 'Analisando os dados…', 'Chamando o agente…', 'Quase lá…'];
 
   function addAiTyping() {
-    const p = document.createElement('p');
+    const p = document.createElement('div');
     p.className = 'ai-msg bot typing';
     p.setAttribute('aria-label', 'Tera AI está digitando');
     const dots = document.createElement('span');
@@ -520,12 +564,12 @@
   }
 
   function addAiError(message, retryFn) {
-    const p = document.createElement('p');
+    const p = document.createElement('div');
     p.className = 'ai-msg error';
     const title = document.createElement('b');
     title.className = 'ai-error-title';
     title.textContent = 'A Tera AI não respondeu';
-    const body = document.createElement('span');
+    const body = document.createElement('div');
     body.className = 'ai-error-body';
     body.textContent = message;
     p.append(title, body);
