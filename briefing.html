@@ -165,7 +165,7 @@
   <span data-check="contato"><i></i>Contato</span>
 </div>
 
-<form id="briefing-form" action="https://formsubmit.co/canhete.jr@gmail.com" method="POST" novalidate>
+<form id="briefing-form" action="https://formsubmit.co/contato@teralabs.cloud" method="POST" novalidate>
 <input type="hidden" name="_subject" value="Novo briefing — Experiência Tera"/>
 <input type="hidden" name="_template" value="table"/>
 <input type="hidden" name="_next" value="https://teralabs.cloud/briefing.html?enviado=1#sucesso-banner"/>
@@ -446,7 +446,7 @@
     button.disabled = true; button.innerHTML = 'Enviando… <span class="arrow">↗</span>';
     setError(5, '');
     try {
-      const response = await fetch('https://formsubmit.co/ajax/canhete.jr@gmail.com', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+      const response = await fetch('https://formsubmit.co/ajax/contato@teralabs.cloud', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
       const result = await response.json();
       if (!response.ok || String(result.success) !== 'true') throw new Error(result.message || 'Falha no envio');
       steps.forEach(s => s.classList.remove('active'));
