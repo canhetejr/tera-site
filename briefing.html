@@ -506,7 +506,13 @@
   }
 
   function formatAiText(text) {
-    const lines = escapeHtml(text).split('\n');
+    // Alguns modelos devolvem listas inline ("- **Nome:** x - **Empresa:** y")
+    // em vez de uma linha por item. Normaliza pra quebra de linha real antes
+    // de formatar, senão o parser de lista abaixo não reconhece os itens.
+    let normalized = text.replace(/\s+-\s+(?=\*\*[^*\n]+:\*\*)/g, '\n- ');
+    // Separa uma pergunta de fechamento que ficou grudada no fim do último item.
+    normalized = normalized.replace(/([a-zà-ÿ0-9,.\)])\s+([A-ZÀ-Ý][^\n?]{3,80}\?)$/, '$1\n\n$2');
+    const lines = escapeHtml(normalized).split('\n');
     let html = '';
     let inList = false;
     for (const line of lines) {
