@@ -82,7 +82,9 @@
     position: fixed;
     inset: 0;
     z-index: 90;
-    padding: 26px 0 max(26px, env(safe-area-inset-bottom));
+    /* Alinha o botão de fechar com a altura do cabeçalho (88px), para que
+       ele apareça exatamente onde o de abrir estava. */
+    padding: 21px 0 max(26px, env(safe-area-inset-bottom));
     background: var(--paper);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -104,6 +106,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     min-height: 46px;
     margin-bottom: 30px;
   }
@@ -112,6 +115,34 @@
     letter-spacing: .18em;
     text-transform: uppercase;
     color: var(--muted);
+  }
+
+  /* Fica exatamente onde estava o botão que abriu: mesma coluna, mesma
+     medida, mesma altura. Fechar é desfazer o gesto, não procurar outro. */
+  .menu-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .menu-close:hover { border-color: var(--ink); }
+  .menu-close:active { background: var(--soft); }
+  .menu-close svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: square;
+    fill: none;
   }
 
   .menu-links {
@@ -192,10 +223,13 @@
 @media (max-width: 640px) {
   header .nav-cta { display: none; }
   .menu-toggle { margin-left: 0; }
+  /* Aqui o cabeçalho tem 74px. */
+  .menu-panel { padding-top: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .menu-panel,
+  .menu-close,
   .menu-toggle i,
   .menu-toggle i::before,
   .menu-toggle i::after { transition: none; }
