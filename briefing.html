@@ -748,10 +748,25 @@
     });
     stars.forEach((s, i) => { const a = s.a - time * (.16 + (i % 3) * .05), rr = scale * s.r, x = Math.cos(a) * rr, y = Math.sin(a) * rr * .42; ctx.beginPath(); ctx.arc(x, y, s.s, 0, Math.PI * 2); ctx.fillStyle = i % 7 === 0 ? '#d7f75b' : 'rgba(255,255,255,.32)'; ctx.fill(); });
     ctx.beginPath(); ctx.arc(0, 0, 3 + Math.sin(time * 5) * 1.2, 0, Math.PI * 2); ctx.fillStyle = '#d7f75b'; ctx.shadowColor = '#d7f75b'; ctx.shadowBlur = 18; ctx.fill(); ctx.restore(); ctx.shadowBlur = 0;
-    if (!reduced) raf = requestAnimationFrame(frame);
+    if (rodando) raf = requestAnimationFrame(frame);
   };
-  frame(0);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(raf); else if (!reduced) raf = requestAnimationFrame(frame); });
+
+  // O pano de fundo é decorativo, mas rodava a 60fps o tempo todo — inclusive
+  // com o canvas fora da tela, o que em celular é bateria gasta à toa. Anima
+  // só quando está visível de fato: aba em primeiro plano E dentro da viewport.
+  // As duas condições passam pela mesma função, senão dois gatilhos podem
+  // deixar dois loops rodando ao mesmo tempo.
+  let rodando = false, abaVisivel = !document.hidden, naViewport = true;
+  const sincronizar = () => {
+    const deveRodar = abaVisivel && naViewport && !reduced;
+    if (deveRodar === rodando) return;
+    rodando = deveRodar;
+    if (rodando) raf = requestAnimationFrame(frame); else cancelAnimationFrame(raf);
+  };
+  frame(0); // um quadro estático, também para quem pediu menos movimento
+  new IntersectionObserver(([e]) => { naViewport = e.isIntersecting; sincronizar(); }, { threshold: 0 }).observe(stage);
+  document.addEventListener('visibilitychange', () => { abaVisivel = !document.hidden; sincronizar(); });
+  sincronizar();
 })();
 </script>
 </body></html>
