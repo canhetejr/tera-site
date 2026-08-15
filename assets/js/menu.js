@@ -27,7 +27,7 @@
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-controls', 'menu-panel');
   toggle.setAttribute('aria-label', 'Abrir menu');
-  toggle.appendChild(document.createElement('i')).setAttribute('aria-hidden', 'true');
+  toggle.textContent = 'Menu';
   header.appendChild(toggle);
 
   var panel = document.createElement('div');
@@ -60,8 +60,7 @@
   close.type = 'button';
   close.className = 'menu-close';
   close.setAttribute('aria-label', 'Fechar menu');
-  close.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
-    + '<path d="M6 6 L18 18 M18 6 L6 18" /></svg>';
+  close.textContent = 'Fechar';
   head.appendChild(close);
 
   inner.appendChild(head);
