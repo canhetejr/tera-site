@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tera | Software sob medida e IA aplicada em Maringá</title>
+<meta name="description" content="A Tera desenvolve software sob medida: sistemas web, plataformas, integrações, automação e IA aplicada para problemas que ferramentas prontas não resolvem. Maringá, PR.">
+<meta name="theme-color" content="#0a0a09">
+<meta name="author" content="Tera Innovation and Technology">
+<link rel="canonical" href="https://teralabs.cloud/experiencia/">
+<meta name="robots" content="noindex, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Tera Innovation and Technology">
+<meta property="og:title" content="Tera | Software sob medida e IA aplicada em Maringá">
+<meta property="og:description" content="Sistemas web, plataformas, integrações, automação e IA aplicada para problemas que ferramentas prontas não resolvem.">
+<meta property="og:url" content="https://teralabs.cloud/">
+<meta property="og:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tera | Software sob medida e IA aplicada em Maringá">
+<meta name="twitter:description" content="Sistemas web, plataformas, integrações, automação e IA aplicada para problemas que ferramentas prontas não resolvem.">
+<meta name="twitter:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg">
+
+<link rel="icon" href="../assets/images/tera_simbolo_oficial_branca.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/images/tera_simbolo_oficial_branca.png">
+<link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/tera.css">
+
+<noscript><style>
+  .scene { height: auto !important; }
+  .scene__stage { position: static !important; height: auto !important; padding-block: 96px; }
+</style></noscript>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://teralabs.cloud/#organization","name":"Tera Innovation and Technology","alternateName":"Tera","url":"https://teralabs.cloud/","logo":"https://teralabs.cloud/assets/images/tera_logo_oficial_preta.png","address":{"@type":"PostalAddress","addressLocality":"Maringá","addressRegion":"PR","addressCountry":"BR"},"knowsAbout":["Desenvolvimento de software sob medida","Sistemas web","Produtos digitais","Integração de sistemas","Automação de processos","Inteligência artificial aplicada"]},
+{"@type":"ProfessionalService","@id":"https://teralabs.cloud/#business","name":"Tera Innovation and Technology","url":"https://teralabs.cloud/","description":"Desenvolvimento de software sob medida, sistemas web, integrações, automação e IA aplicada para empresas. Tera, em Maringá-PR.","address":{"@type":"PostalAddress","addressLocality":"Maringá","addressRegion":"PR","addressCountry":"BR"},"areaServed":"BR","serviceType":["Desenvolvimento de software sob medida","Sistemas web e plataformas digitais","Integração de sistemas e APIs","Automação de processos","Soluções de inteligência artificial"]},
+{"@type":"WebSite","@id":"https://teralabs.cloud/#website","url":"https://teralabs.cloud/","name":"Tera Innovation and Technology","inLanguage":"pt-BR","publisher":{"@id":"https://teralabs.cloud/#organization"}},
+{"@type":"FAQPage","@id":"https://teralabs.cloud/#faq","mainEntity":[
+{"@type":"Question","name":"O que é software sob medida?","acceptedAnswer":{"@type":"Answer","text":"É um sistema desenvolvido para regras, fluxos, integrações e usuários específicos de uma empresa. Diferente de uma ferramenta pronta, o produto é desenhado a partir do processo que precisa funcionar."}},
+{"@type":"Question","name":"Quando vale a pena desenvolver um sistema próprio?","acceptedAnswer":{"@type":"Answer","text":"Quando o problema é recorrente, gera retrabalho, depende de planilhas ou contornos e não é bem atendido por ferramentas existentes. Antes de desenvolver, avaliamos se construir é realmente a melhor decisão."}},
+{"@type":"Question","name":"Quanto custa desenvolver um software sob medida?","acceptedAnswer":{"@type":"Answer","text":"O custo depende do escopo, das integrações, das regras de negócio, do nível de segurança e da complexidade técnica. A Tera primeiro entende o contexto e define uma proposta compatível com o que precisa ser validado."}},
+{"@type":"Question","name":"Quanto tempo leva para desenvolver?","acceptedAnswer":{"@type":"Answer","text":"O prazo varia conforme o problema e o escopo. Organizamos o projeto em etapas verificáveis para colocar uma primeira versão funcional em uso antes de concentrar todo o investimento na solução completa."}},
+{"@type":"Question","name":"A Tera desenvolve soluções com inteligência artificial?","acceptedAnswer":{"@type":"Answer","text":"Sim, quando a IA é adequada ao processo. Trabalhamos com agentes, copilotos, busca com contexto e automações, considerando qualidade das fontes, critérios de resposta, supervisão e integração com a operação."}},
+{"@type":"Question","name":"Como começa um projeto com a Tera?","acceptedAnswer":{"@type":"Answer","text":"Começa pela descrição do problema: processo atual, pessoas envolvidas, sistemas existentes e resultado esperado. A partir disso, avaliamos o caminho, as incertezas e o primeiro escopo que vale construir."}}]}]}
+</script>
+</head>
+
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="progress" data-progress aria-hidden="true"></div>
+<div class="ambient" aria-hidden="true"></div>
+
+<!-- The Tera Core. An enhancement: every word on this page exists without it. -->
+<canvas id="tera-core" aria-hidden="true"></canvas>
+<svg id="tera-connectors" aria-hidden="true" focusable="false">
+  <path data-from="ui-series" data-to="[data-status]"></path>
+  <path data-from="lab-vertice" data-to="#lab-title"></path>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="header" data-header>
+  <a class="brand" href="#topo" aria-label="Tera — início">
+    <svg class="brand__mark" viewBox="0 0 340 342" aria-hidden="true" fill="currentColor">
+      <rect x="0" y="0" width="262" height="68"/>
+      <path d="M 90 68 H 174 V 228 C 174 256 187 270 212 270 H 225 V 336 H 190 C 132 336 90 295 90 238 Z"/>
+      <circle cx="294" cy="296" r="46"/>
+    </svg>
+    <span>Tera</span>
+  </a>
+  <nav class="nav" aria-label="Navegação principal">
+    <a href="#capacidades" data-nav>O que fazemos</a>
+    <a href="#projetos" data-nav>Projetos</a>
+    <a href="#processo" data-nav>Como trabalhamos</a>
+    <a href="#origem" data-nav>A Tera</a>
+    <a href="#contato" data-nav>Contato</a>
+  </nav>
+  <a class="btn btn--ghost" href="../briefing.html" data-magnetic="0.8">
+    Briefing
+    <span class="btn__mark" aria-hidden="true">↗</span>
+  </a>
+</header>
+
+<main id="conteudo">
+
+  <!-- ==================================================================
+       ACT I — boot · ideia · estrutura · produto
+       One pinned stage. Four scenes dissolve inside it while the structure
+       behind them goes from dust to a working interface.
+       ================================================================== -->
+  <section class="act" id="topo" data-act="boot:1.25,idea:1,build:1.25,product:1.35"
+           style="--len: 5.6" aria-label="Da ideia ao produto">
+    <div class="act__stage" data-stage>
+      <div class="core-fallback" aria-hidden="true"></div>
+
+      <!-- 01 BOOT ---------------------------------------------------- -->
+      <div class="scene-copy hero" data-scene-copy="boot" data-first>
+        <div class="hero__head">
+          <p class="boot-strip">
+            <span>Tera</span><span>System 001</span><b>Build</b><span>Maringá · PR</span>
+          </p>
+          <p class="index" aria-hidden="true">−23.4205 / −51.9331</p>
+        </div>
+
+        <h1 class="hero__title" id="hero-title">
+          Software sob medida
+          <em>para o que ainda não existe</em>
+        </h1>
+
+        <div class="hero__body">
+          <p class="hero__lead">
+            A Tera desenvolve sistemas web, plataformas, integrações, automações
+            e IA aplicada para problemas específicos de cada operação — os que
+            ferramentas prontas não resolvem.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--accent btn--lg" href="../briefing.html" data-magnetic="1.1">
+              Descrever meu projeto
+              <span class="btn__mark" aria-hidden="true">↗</span>
+            </a>
+            <a class="link" href="#capacidades">
+              Ver o que construímos <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+        </div>
+
+        <p class="hero__meta">
+          <span class="label label--plain">Desenvolvimento de software</span>
+          <span class="label label--plain">Produto e experiência</span>
+          <span class="label label--plain">Integrações e automação</span>
+          <span class="label label--plain">IA aplicada</span>
+        </p>
+      </div>
+
+      <!-- 02 IDEIA --------------------------------------------------- -->
+      <div class="scene-copy scene-copy--left" data-scene-copy="idea">
+        <p class="index">001 / Ideia</p>
+        <h2 class="statement">
+          Antes do software existe um problema
+          <em>mal resolvido.</em>
+        </h2>
+        <div class="rule" style="max-width: 420px"></div>
+        <p class="scene-note">
+          Regras próprias, planilhas, retrabalho, sistemas que não se falam.
+          Nada disso tem forma ainda — só coordenadas espalhadas pela operação.
+          É daqui que a Tera começa.
+        </p>
+      </div>
+
+      <!-- 03 ESTRUTURA ----------------------------------------------- -->
+      <div class="scene-copy" data-scene-copy="build">
+        <div class="scene-head">
+          <div>
+            <p class="index">002 / Estrutura</p>
+            <h2 class="statement">Estrutura antes de interface.</h2>
+          </div>
+          <p class="scene-note">
+            Fluxo, regras e integrações primeiro. A tela é a última decisão do
+            projeto, não a primeira.
+          </p>
+        </div>
+
+        <p class="build-counter">
+          <b>0<span data-build-step>1</span></b>
+          <span>Build</span>
+        </p>
+
+        <ol class="build-steps">
+          <li class="build-step" data-build="0"><span class="index">001</span><span>Estrutura</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-build="1"><span class="index">002</span><span>Componentes</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-build="2"><span class="index">003</span><span>Dados</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-build="3"><span class="index">004</span><span>Interações</span><span class="build-step__state">ok</span></li>
+        </ol>
+      </div>
+
+      <!-- 04 PRODUTO ------------------------------------------------- -->
+      <div class="scene-copy" data-scene-copy="product">
+        <div class="scene-head">
+          <div>
+            <p class="index">003 / Produto</p>
+            <h2 class="statement statement--wide">
+              Até virar software que entra em operação.
+            </h2>
+          </div>
+          <div>
+            <p class="status-pill" data-status><i aria-hidden="true"></i><span data-status-label>Protótipo</span></p>
+            <p class="scene-note" style="margin-top: 18px">
+              Versões utilizáveis desde cedo, testadas por quem participa da
+              operação real — não apresentações sobre o futuro.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Captions that hold on to the structure itself. -->
+      <div class="spatial" data-anchor="ui-nav">
+        <div class="spatial__inner">
+          <p class="spatial__name">A regra do negócio</p>
+          <p class="spatial__meta">Fluxo · Permissões · Decisão</p>
+        </div>
+      </div>
+      <div class="spatial" data-anchor="ui-series">
+        <div class="spatial__inner">
+          <p class="spatial__name">O número que a operação acompanha</p>
+          <p class="spatial__meta">Dado real · Não é ilustração</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------ silêncio: o que fazemos -->
+  <section class="passage" id="capacidades" aria-labelledby="servicos-title">
+    <div class="wrap">
+      <div class="passage__head">
+        <div>
+          <p class="index">004 / Serviços</p>
+          <h2 class="passage__title" id="servicos-title">
+            Tecnologia construída para o modo como a empresa realmente opera.
+          </h2>
+        </div>
+        <p class="passage__intro">
+          Quando uma ferramenta pronta exige contornos, planilhas ou retrabalho,
+          desenhamos a solução para as regras, as pessoas e os sistemas que já
+          fazem parte do negócio.
+        </p>
+      </div>
+
+      <div class="stack">
+        <article class="stack__item">
+          <p class="index">01</p>
+          <h3 class="stack__title">Desenvolvimento de software sob medida</h3>
+          <div>
+            <p class="stack__body">
+              Sistemas web, plataformas e aplicações criados para fluxos, regras
+              e integrações que um produto de prateleira não atende.
+            </p>
+            <ul class="stack__tags"><li>Sistemas web</li><li>Plataformas</li><li>Arquitetura</li></ul>
+          </div>
+        </article>
+        <article class="stack__item">
+          <p class="index">02</p>
+          <h3 class="stack__title">Estratégia de produto e UX/UI</h3>
+          <div>
+            <p class="stack__body">
+              Pesquisa, definição de escopo, protótipos e interfaces para validar
+              a solução antes de ampliar o investimento em desenvolvimento.
+            </p>
+            <ul class="stack__tags"><li>Discovery</li><li>UX</li><li>UI</li></ul>
+          </div>
+        </article>
+        <article class="stack__item">
+          <p class="index">03</p>
+          <h3 class="stack__title">Integração de sistemas e automação</h3>
+          <div>
+            <p class="stack__body">
+              APIs, fluxos automatizados e centralização de dados para reduzir
+              tarefas repetitivas e conectar a operação.
+            </p>
+            <ul class="stack__tags"><li>APIs</li><li>Automação</li><li>Dados</li></ul>
+          </div>
+        </article>
+        <article class="stack__item">
+          <p class="index">04</p>
+          <h3 class="stack__title">Inteligência artificial aplicada</h3>
+          <div>
+            <p class="stack__body">
+              Agentes, copilotos e busca com contexto integrados a processos onde
+              a IA tem objetivo, dados e supervisão.
+            </p>
+            <ul class="stack__tags"><li>Agentes de IA</li><li>RAG</li><li>Automação</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       ACT II — o laboratório
+       ================================================================== -->
+  <section class="act" data-act="lab:1" style="--len: 2.4" aria-label="O laboratório da Tera">
+    <div class="act__stage" data-stage>
+      <div class="core-fallback" aria-hidden="true"></div>
+
+      <div class="scene-copy scene-copy--bottom" data-scene-copy="lab" data-first>
+        <p class="index">005 / Laboratório</p>
+        <h2 class="statement statement--sm" id="lab-title">
+          Cada produto tem <em>identidade própria.</em>
+        </h2>
+        <p class="scene-note" style="margin-top: 20px">
+          Produtos em produção e estudos conceituais, cada um com seu
+          comportamento e sua arquitetura.
+        </p>
+      </div>
+
+      <div class="spatial" data-anchor="lab-vertice">
+        <div class="spatial__inner">
+          <p class="spatial__name">Vértice</p>
+          <p class="spatial__meta">Plataforma Tera · Em produção</p>
+        </div>
+      </div>
+      <div class="spatial" data-anchor="lab-epub">
+        <div class="spatial__inner">
+          <p class="spatial__name">Conversor EPUB</p>
+          <p class="spatial__meta">Ferramenta Tera · Em produção</p>
+        </div>
+      </div>
+      <div class="spatial" data-anchor="lab-context">
+        <div class="spatial__inner">
+          <p class="spatial__name">Inteligência contextual</p>
+          <p class="spatial__meta">Estudo conceitual</p>
+        </div>
+      </div>
+      <div class="spatial" data-anchor="lab-journey">
+        <div class="spatial__inner">
+          <p class="spatial__name">Jornada que converte</p>
+          <p class="spatial__meta">Estudo conceitual</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------- silêncio: os projetos -->
+  <section class="passage" id="projetos" aria-labelledby="projetos-title">
+    <div class="wrap">
+      <div class="passage__head">
+        <div>
+          <p class="index">006 / Projetos</p>
+          <h2 class="passage__title" id="projetos-title">
+            Produtos reais e caminhos possíveis.
+          </h2>
+        </div>
+        <p class="passage__intro">
+          Produtos da Tera em produção e estudos que mostram como um problema
+          operacional vira fluxo, interface e arquitetura de software.
+        </p>
+      </div>
+
+      <div class="projects">
+        <article class="project project--wide" data-project id="projeto-vertice" data-open="false">
+          <div class="project__head">
+            <div>
+              <p class="index">01 · Plataforma Tera · Em produção</p>
+              <h3 class="project__name">Vértice — gestão de trabalho de ponta a ponta</h3>
+              <p class="project__what">
+                Uma plataforma para organizar demandas, responsáveis, apontamentos
+                e a visão do trabalho, dando clareza para a equipe avançar.
+              </p>
+            </div>
+            <p class="project__coords" aria-hidden="true">SYS-01 · −9.4 / 1.6 / −3.5</p>
+          </div>
+          <div class="project__foot">
+            <button class="project-toggle" type="button" data-project-toggle
+                    aria-expanded="false" aria-controls="detalhe-vertice">
+              <i aria-hidden="true"></i> Ver o sistema
+            </button>
+            <a class="link" href="https://vertice.teralabs.cloud" rel="noopener">
+              Conhecer o Vértice <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <dl class="project__detail" id="detalhe-vertice" data-project-detail hidden>
+            <div><dt>Problema</dt><dd>Demandas, responsáveis e apontamentos espalhados entre planilhas e conversas, sem uma visão única de andamento.</dd></div>
+            <div><dt>Sistema</dt><dd>Quadro de trabalho, atribuição de responsáveis, apontamento de tempo e visão de progresso em um mesmo lugar.</dd></div>
+            <div><dt>Stack</dt><dd>Aplicação web, fluxo Kanban, gestão de produtividade.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project" data-project id="projeto-epub" data-open="false">
+          <div class="project__head">
+            <div>
+              <p class="index">02 · Ferramenta Tera · Em produção</p>
+              <h3 class="project__name">Conversor de documentos para EPUB</h3>
+              <p class="project__what">
+                Uma ferramenta prática para transformar HTML, PDF e Word em livros
+                digitais EPUB.
+              </p>
+            </div>
+            <p class="project__coords" aria-hidden="true">SYS-02 · 7.6 / 3.4 / −11.0</p>
+          </div>
+          <div class="project__foot">
+            <button class="project-toggle" type="button" data-project-toggle
+                    aria-expanded="false" aria-controls="detalhe-epub">
+              <i aria-hidden="true"></i> Ver o sistema
+            </button>
+            <a class="link" href="https://tera.brugnolo.com.br/projetos/epub-converter/" rel="noopener">
+              Abrir conversor <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <dl class="project__detail" id="detalhe-epub" data-project-detail hidden>
+            <div><dt>Problema</dt><dd>Publicar um livro digital exigia conversão manual e ferramentas separadas para cada formato de origem.</dd></div>
+            <div><dt>Sistema</dt><dd>Uma aplicação web única que recebe HTML, PDF ou DOCX e devolve um EPUB pronto.</dd></div>
+            <div><dt>Stack</dt><dd>Aplicação web, conversão de documentos, EPUB.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project" data-project id="projeto-contexto" data-open="false">
+          <div class="project__head">
+            <div>
+              <p class="index">03 · Estudo conceitual</p>
+              <h3 class="project__name">Dar contexto à IA antes de pedir uma resposta</h3>
+              <p class="project__what">
+                Um copiloto conectado às fontes autorizadas da empresa, com busca
+                contextual, critérios de resposta e supervisão humana.
+              </p>
+            </div>
+            <p class="project__coords" aria-hidden="true">STD-01 · −6.2 / −5.4 / −18.5</p>
+          </div>
+          <div class="project__foot">
+            <button class="project-toggle" type="button" data-project-toggle
+                    aria-expanded="false" aria-controls="detalhe-contexto">
+              <i aria-hidden="true"></i> Ver o estudo
+            </button>
+            <p class="index">Agentes · RAG · Workflows</p>
+          </div>
+          <dl class="project__detail" id="detalhe-contexto" data-project-detail hidden>
+            <div><dt>Problema</dt><dd>Modelos genéricos respondem sem conhecer as regras, os documentos e os limites da empresa.</dd></div>
+            <div><dt>Sistema</dt><dd>Busca sobre fontes autorizadas, critérios explícitos de resposta e um ponto de supervisão humana antes da ação.</dd></div>
+            <div><dt>Natureza</dt><dd>Estudo conceitual — mostra a abordagem, não um produto em operação.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project project--wide" data-project id="projeto-jornada" data-open="false">
+          <div class="project__head">
+            <div>
+              <p class="index">04 · Estudo conceitual</p>
+              <h3 class="project__name">Transformar uma jornada comercial em produto digital</h3>
+              <p class="project__what">
+                Uma experiência que organiza informação, qualifica a demanda e
+                conduz cada pessoa até a próxima ação relevante.
+              </p>
+            </div>
+            <p class="project__coords" aria-hidden="true">STD-02 · 9.8 / −4.6 / −24.0</p>
+          </div>
+          <div class="project__foot">
+            <button class="project-toggle" type="button" data-project-toggle
+                    aria-expanded="false" aria-controls="detalhe-jornada">
+              <i aria-hidden="true"></i> Ver o estudo
+            </button>
+            <p class="index">Estratégia · UX/UI · Conversão</p>
+          </div>
+          <dl class="project__detail" id="detalhe-jornada" data-project-detail hidden>
+            <div><dt>Problema</dt><dd>Informação dispersa faz a pessoa certa desistir antes de chegar à conversa certa.</dd></div>
+            <div><dt>Sistema</dt><dd>Uma jornada que ordena o contexto, qualifica a demanda e entrega o próximo passo já preparado para quem atende.</dd></div>
+            <div><dt>Natureza</dt><dd>Estudo conceitual — o briefing interativo deste site nasceu dessa ideia.</dd></div>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       ACT III — sistemas · capacidades
+       ================================================================== -->
+  <section class="act" data-act="systems:1.1,capabilities:1.6" style="--len: 4"
+           aria-label="Sistemas e capacidades">
+    <div class="act__stage" data-stage>
+      <div class="core-fallback" aria-hidden="true"></div>
+
+      <div class="scene-copy" data-scene-copy="systems" data-first>
+        <div class="scene-head">
+          <div>
+            <p class="index">007 / Sistemas</p>
+            <h2 class="statement statement--sm">
+              Um evento entra.
+              <em>O sistema decide o resto.</em>
+            </h2>
+          </div>
+          <p class="scene-note">
+            Automação não é um fluxograma numa ferramenta de terceiros. É o
+            comportamento do software quando algo acontece na operação.
+          </p>
+        </div>
+
+        <ol class="build-steps" style="max-width: 540px">
+          <li class="build-step" data-flow="0"><span class="index">→</span><span>Um evento chega</span><span class="build-step__state">in</span></li>
+          <li class="build-step" data-flow="1"><span class="index">?</span><span>Uma condição é verificada</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-flow="2"><span class="index">↻</span><span>O dado é transformado</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-flow="3"><span class="index">⇉</span><span>Dois sistemas são atualizados</span><span class="build-step__state">ok</span></li>
+          <li class="build-step" data-flow="4"><span class="index">✓</span><span>O status muda para quem depende dele</span><span class="build-step__state">done</span></li>
+        </ol>
+      </div>
+
+      <div class="scene-copy" data-scene-copy="capabilities">
+        <div class="scene-head">
+          <div>
+            <p class="index">008 / Capacidades</p>
+            <h2 class="statement statement--sm">Cada capacidade muda o sistema.</h2>
+          </div>
+          <p class="scene-note">
+            Produto, design e engenharia na mesma entrega — e cada uma delas
+            deixa uma marca diferente naquilo que é construído.
+          </p>
+        </div>
+
+        <ul class="capabilities">
+          <li class="capability" data-cap="0">
+            <p class="capability__name">Software</p>
+            <p class="capability__what">Sistemas web, plataformas e aplicações criados para regras que não cabem em ferramenta pronta.</p>
+            <p class="capability__effect">Surge estrutura</p>
+          </li>
+          <li class="capability" data-cap="1">
+            <p class="capability__name">Produto e design</p>
+            <p class="capability__what">Discovery, escopo, protótipo e interface — a estrutura ganha forma antes de ganhar custo.</p>
+            <p class="capability__effect">A estrutura ganha forma</p>
+          </li>
+          <li class="capability" data-cap="2">
+            <p class="capability__name">Integrações e automação</p>
+            <p class="capability__what">APIs e fluxos automatizados que conectam o que hoje só se comunica por planilha e retrabalho.</p>
+            <p class="capability__effect">Os elementos passam a conversar</p>
+          </li>
+          <li class="capability" data-cap="3">
+            <p class="capability__name">Dados</p>
+            <p class="capability__what">Centralização, arquitetura e visibilidade: a informação passa a atravessar a operação inteira.</p>
+            <p class="capability__effect">A informação atravessa o sistema</p>
+          </li>
+          <li class="capability" data-cap="4">
+            <p class="capability__name">Inteligência artificial aplicada</p>
+            <p class="capability__what">Agentes, copilotos e busca com contexto onde existe objetivo, dado confiável e supervisão.</p>
+            <p class="capability__effect">O sistema responde ao contexto</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------- silêncio: o processo -->
+  <section class="passage" id="processo" aria-labelledby="processo-title">
+    <div class="wrap">
+      <div class="passage__head">
+        <div>
+          <p class="index">009 / Processo</p>
+          <h2 class="passage__title" id="processo-title">
+            Do problema definido ao software em produção.
+          </h2>
+        </div>
+        <p class="passage__intro">
+          Cada etapa reduz uma incerteza: o problema, o escopo, a solução e o que
+          precisa evoluir depois do uso.
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <p class="index">01 / Entender</p>
+          <h3 class="step__title">Entender o processo atual</h3>
+          <p class="step__body">Mapeamos pessoas, regras, dados, sistemas existentes e o custo do problema antes de propor tecnologia.</p>
+        </li>
+        <li class="step">
+          <p class="index">02 / Decidir</p>
+          <h3 class="step__title">Definir o que vale construir</h3>
+          <p class="step__body">Priorizamos o que precisa mudar primeiro e transformamos a decisão em escopo, fluxo e critérios de aceite.</p>
+        </li>
+        <li class="step">
+          <p class="index">03 / Construir</p>
+          <h3 class="step__title">Validar com software funcionando</h3>
+          <p class="step__body">Design e engenharia entregam versões utilizáveis para testar o caminho com quem participa da operação.</p>
+        </li>
+        <li class="step">
+          <p class="index">04 / Evoluir</p>
+          <h3 class="step__title">Evoluir com uso real</h3>
+          <p class="step__body">A próxima decisão considera comportamento, restrições técnicas e aprendizado obtido no uso do produto.</p>
+        </li>
+      </ol>
+
+      <div class="rule"></div>
+
+      <div class="principles">
+        <div class="principle">
+          <h3 class="principle__title">Problema antes da ferramenta</h3>
+          <p class="principle__body">A escolha técnica vem depois de entender processo, pessoas, dados e restrições.</p>
+        </div>
+        <div class="principle">
+          <h3 class="principle__title">Escopo que pode ser validado</h3>
+          <p class="principle__body">Dividimos a solução em decisões e entregas que podem ser verificadas antes de ampliar o projeto.</p>
+        </div>
+        <div class="principle">
+          <h3 class="principle__title">Software preparado para operar</h3>
+          <p class="principle__body">Integração, segurança, manutenção e evolução fazem parte da decisão de produto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       ACT IV — o ecossistema
+       ================================================================== -->
+  <section class="act" data-act="ecosystem:1" style="--len: 2.1" aria-label="O ecossistema Tera">
+    <div class="act__stage" data-stage>
+      <div class="core-fallback" aria-hidden="true"></div>
+      <div class="scene-copy scene-copy--left" data-scene-copy="ecosystem" data-first>
+        <p class="index">010 / Ecossistema</p>
+        <h2 class="statement statement--wide">
+          O que parecia enorme era
+          <em>um produto só.</em>
+        </h2>
+        <p class="scene-note" style="margin-top: 24px">
+          Produtos em produção, estudos, integrações e a infraestrutura que
+          mantém tudo isso funcionando junto.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------- silêncio: a origem -->
+  <section class="passage passage--tight" id="origem" aria-labelledby="origem-title">
+    <div class="wrap">
+      <div class="passage__head">
+        <div>
+          <p class="index">011 / Origem</p>
+          <h2 class="passage__title" id="origem-title">
+            Desenvolvimento de software em Maringá, com o problema perto.
+          </h2>
+        </div>
+        <p class="passage__intro">
+          A Tera reúne estratégia de produto, design e engenharia para construir
+          soluções digitais sem separar quem entende o negócio de quem implementa
+          a tecnologia.
+        </p>
+      </div>
+      <p class="label">Tera · Maringá · Paraná · Brasil</p>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       ACT V — a assinatura
+       Everything built along the way reorganises into the Tera mark.
+       ================================================================== -->
+  <section class="act" data-act="final:1" style="--len: 2.3" aria-label="Vamos construir">
+    <div class="act__stage" data-stage>
+      <div class="core-fallback" aria-hidden="true"></div>
+      <div class="scene-copy final" data-scene-copy="final" data-first>
+        <p class="index">012 / Próximo</p>
+        <h2 class="final__title" id="final-title">
+          Tem uma ideia que deveria existir?
+        </h2>
+        <p class="final__note">
+          Conte o problema que o software precisa resolver. A primeira decisão é
+          entender se realmente vale construir.
+        </p>
+        <a class="btn btn--accent btn--lg" href="#contato" data-magnetic="1.2">
+          Descrever meu projeto
+          <span class="btn__mark" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- o contato -->
+  <section class="passage" id="contato" aria-labelledby="contato-title">
+    <div class="wrap contact">
+      <div>
+        <p class="index">013 / Contato</p>
+        <h2 class="passage__title" id="contato-title">
+          Conte o problema que o software precisa resolver.
+        </h2>
+        <p class="passage__intro" style="margin-top: 22px">
+          Descreva o processo, o sistema ou o produto que precisa mudar. Essas
+          informações ajudam a avaliar o contexto antes da primeira conversa.
+        </p>
+        <div class="rule" style="max-width: 320px"></div>
+        <p class="label label--plain">Prefere responder quatro perguntas?</p>
+        <p style="margin-top: 12px">
+          <a class="link" href="../briefing.html">Montar meu briefing <span aria-hidden="true">↗</span></a>
+        </p>
+      </div>
+
+      <form class="form" id="project-form" method="POST"
+            action="https://formsubmit.co/canhete.jr@gmail.com">
+        <input type="hidden" name="_subject" value="Novo projeto pelo site da Tera">
+        <input type="hidden" name="_next" value="https://teralabs.cloud/experiencia/?enviado=1#contato">
+        <input type="hidden" name="_template" value="table">
+        <input class="honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="field">
+          <label for="nome">Seu nome *</label>
+          <input id="nome" name="nome" type="text" required autocomplete="name" placeholder="Como podemos chamar você?">
+        </div>
+        <div class="field">
+          <label for="email">E-mail *</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="voce@empresa.com">
+        </div>
+        <div class="field">
+          <label for="telefone">WhatsApp</label>
+          <input id="telefone" name="telefone" type="tel" autocomplete="tel" placeholder="(44) 99999-9999">
+        </div>
+        <div class="field">
+          <label for="empresa">Empresa</label>
+          <input id="empresa" name="empresa" type="text" autocomplete="organization" placeholder="Nome da empresa">
+        </div>
+        <div class="field field--full">
+          <label for="desafio">Tipo de desafio *</label>
+          <select id="desafio" name="desafio" required>
+            <option value="" disabled selected>Selecione uma opção</option>
+            <option value="software-sob-medida">Desenvolver software sob medida</option>
+            <option value="produto-digital">Criar um produto digital</option>
+            <option value="integracao">Integrar sistemas e dados</option>
+            <option value="automacao">Automatizar um processo</option>
+            <option value="ia">Aplicar inteligência artificial</option>
+            <option value="evolucao">Evoluir um sistema existente</option>
+            <option value="outro">Outro desafio</option>
+          </select>
+        </div>
+        <div class="field field--full">
+          <label for="mensagem">O que precisa ser resolvido? *</label>
+          <textarea id="mensagem" name="mensagem" required
+                    placeholder="Explique o processo atual, quem participa e onde está o principal problema."></textarea>
+        </div>
+        <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        <div class="form__foot">
+          <small class="form__note">Seus dados são enviados com segurança para a equipe da Tera.</small>
+          <button class="btn btn--accent" type="submit" data-magnetic="0.9">
+            <span data-label>Enviar contexto</span>
+            <span class="btn__mark" aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------------- dúvidas -->
+  <section class="passage passage--tight" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="passage__head">
+        <div>
+          <p class="index">014 / Dúvidas</p>
+          <h2 class="passage__title" id="faq-title">Sobre software sob medida.</h2>
+        </div>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>O que é software sob medida?<i aria-hidden="true"></i></summary>
+          <p>É um sistema desenvolvido para regras, fluxos, integrações e usuários específicos de uma empresa. Diferente de uma ferramenta pronta, o produto é desenhado a partir do processo que precisa funcionar.</p>
+        </details>
+        <details>
+          <summary>Quando vale a pena desenvolver um sistema próprio?<i aria-hidden="true"></i></summary>
+          <p>Quando o problema é recorrente, gera retrabalho, depende de planilhas ou contornos e não é bem atendido por ferramentas existentes. Antes de desenvolver, avaliamos se construir é realmente a melhor decisão.</p>
+        </details>
+        <details>
+          <summary>Quanto custa desenvolver um software sob medida?<i aria-hidden="true"></i></summary>
+          <p>O custo depende do escopo, das integrações, das regras de negócio, do nível de segurança e da complexidade técnica. A Tera primeiro entende o contexto e define uma proposta compatível com o que precisa ser validado.</p>
+        </details>
+        <details>
+          <summary>Quanto tempo leva para desenvolver?<i aria-hidden="true"></i></summary>
+          <p>O prazo varia conforme o problema e o escopo. Organizamos o projeto em etapas verificáveis para colocar uma primeira versão funcional em uso antes de concentrar todo o investimento na solução completa.</p>
+        </details>
+        <details>
+          <summary>A Tera desenvolve soluções com inteligência artificial?<i aria-hidden="true"></i></summary>
+          <p>Sim, quando a IA é adequada ao processo. Trabalhamos com agentes, copilotos, busca com contexto e automações, considerando qualidade das fontes, critérios de resposta, supervisão e integração com a operação.</p>
+        </details>
+        <details>
+          <summary>Como começa um projeto com a Tera?<i aria-hidden="true"></i></summary>
+          <p>Começa pela descrição do problema: processo atual, pessoas envolvidas, sistemas existentes e resultado esperado. A partir disso, avaliamos o caminho, as incertezas e o primeiro escopo que vale construir.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer wrap">
+  <p>Tera Innovation and Technology · © <span data-year>2026</span></p>
+  <p>Maringá / Paraná / Brasil</p>
+  <p><a href="../briefing.html">Briefing rápido ↗</a></p>
+</footer>
+
+<div class="dock" data-dock>
+  <a class="btn btn--accent" href="#contato" data-magnetic="0.7">
+    Falar sobre um projeto
+    <span class="btn__mark" aria-hidden="true">↗</span>
+  </a>
+</div>
+
+<script type="module">
+  import { start } from '../assets/js/experience.js';
+  import { initUI } from '../assets/js/ui.js';
+  initUI();
+  start();
+</script>
+</body>
+</html>
