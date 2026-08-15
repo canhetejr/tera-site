@@ -1,15 +1,29 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta name="theme-color" content="#101010"/><meta property="og:title" content="Briefing do Projeto — Tera"/><meta property="og:description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta property="og:type" content="website"/><meta property="og:url" content="https://teralabs.cloud/briefing.html"/><link rel="canonical" href="https://teralabs.cloud/briefing.html"/><link rel="icon" href="assets/images/tera_simbolo_oficial_preta.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/images/tera_simbolo_oficial_preta.png"><meta property="og:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg"/><meta name="robots" content="index, follow"/><title>Briefing do Projeto — Tera</title><style>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta name="theme-color" content="#101010"/><meta property="og:title" content="Briefing do Projeto — Tera"/><meta property="og:description" content="Responda 4 perguntas rápidas sobre o seu projeto e envie o briefing direto para a equipe da Tera."/><meta property="og:type" content="website"/><meta property="og:url" content="https://teralabs.cloud/briefing.html"/><link rel="canonical" href="https://teralabs.cloud/briefing.html"/><link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="assets/images/tera_simbolo_oficial_preta.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/images/tera_simbolo_oficial_preta.png"><meta property="og:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg"/><meta property="og:site_name" content="Tera Innovation and Technology"/><meta property="og:image:width" content="1600"/><meta property="og:image:height" content="1000"/><meta property="og:image:alt" content="Marca da Tera Innovation and Technology"/><meta name="twitter:image:alt" content="Marca da Tera Innovation and Technology"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://teralabs.cloud/assets/images/tera_logo_oficial_preview.jpg"/><meta name="robots" content="index, follow"/><title>Briefing do Projeto — Tera</title><style>
+    /* Esta página tem CSS próprio e não carrega tera-site.css, então declara a
+       fonte da marca aqui. Sem isto o "Inter" do font-family cai no fallback
+       do sistema, como acontecia no site inteiro. Caminho relativo à raiz. */
+    @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/fonts/inter-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/fonts/inter-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
     :root {
       --ink:#101010; --paper:#f5f3ef; --white:#fffdf9; --muted:#6d6962;
       --line:#d8d4cc; --acid:#d7f75b; --soft:#e9e6df; --max:1240px;
+      /* Superfície da página: o cabeçalho fixo do menu mobile lê daqui, para
+         acompanhar o fundo escuro desta página em vez do claro das internas.
+         A pílula do botão de menu inverte pelo mesmo motivo. */
+      --surface:#101010;
+      --pill-bg:#fffdf9; --pill-fg:#101010; --pill-bg-hover:#e9e6df;
     }
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--ink);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased} a{color:inherit;text-decoration:none} button{font:inherit} .wrap{width:min(calc(100% - 48px),var(--max));margin:0 auto}
     .skip{position:absolute;left:-999px;top:10px;background:var(--acid);color:var(--ink);padding:12px 16px;z-index:100;font-weight:800}.skip:focus{left:10px}
     :focus-visible{outline:3px solid var(--acid);outline-offset:4px}
     header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #262624}
     .brand{display:inline-flex;align-items:center;gap:13px;font-weight:900;letter-spacing:-.04em;color:var(--white)}.brand-mark{width:42px;height:42px;display:block}.brand-word{font-size:20px}
-    nav{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:750}nav a{color:#9a968f;transition:color .2s ease;position:relative}nav a:hover,nav a:focus-visible{color:var(--white)}nav a.nav-active{color:var(--white)!important;font-weight:900}
+    nav{display:flex;align-items:center;gap:28px;font-size:13px;font-weight:750}nav a{color:#9a968f;transition:color .2s ease;position:relative;padding:6px 0}nav a:hover,nav a:focus-visible{color:var(--white)}nav a.nav-active:not(.nav-cta){color:var(--white);font-weight:900}
     .nav-cta{background:var(--acid);color:var(--ink);border-radius:999px;padding:13px 20px;border:0;cursor:pointer;transition:transform .2s ease,background .2s ease}.nav-cta:hover{transform:translateY(-2px);background:#e5ff82}
+    /* O CTA já é a pílula lima; marcá-lo como página atual não pode trocar o
+       texto para branco (ficava 1.19:1 sobre o lima, ilegível). */
+    nav a.nav-cta.nav-active{color:var(--ink);font-weight:900}
 
     .preloader{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:var(--ink);color:var(--white);transition:opacity .65s cubic-bezier(.2,.75,.2,1),visibility .65s}.preloader.done{opacity:0;visibility:hidden}.preloader-inner{display:grid;justify-items:center;gap:22px}.preloader-mark{width:82px;height:82px;color:var(--white);animation:intro-spin 1.2s cubic-bezier(.2,.8,.2,1) both}.preloader-mark circle{fill:var(--acid)}.preloader-label{font:800 10px ui-monospace,SFMono-Regular,monospace;letter-spacing:.22em;color:#aaa69f}
     @keyframes intro-spin{from{opacity:0;transform:scale(.55) rotate(-35deg)}to{opacity:1;transform:none}}
@@ -38,8 +52,8 @@
     .wizard-field textarea{min-height:104px;resize:vertical;font-size:17px;font-weight:500}
     .wizard-field input::placeholder,.wizard-field textarea::placeholder{color:#5c5a55;font-weight:500}
     .wizard-field input:focus,.wizard-field textarea:focus{border-color:var(--acid)}
-    .char-count{margin-top:8px;font:700 11px ui-monospace,SFMono-Regular,monospace;color:#6f6d67;text-align:right}
-    .skip-field{background:none;border:0;color:#77746e;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 0 0}
+    .char-count{margin-top:8px;font:700 11px ui-monospace,SFMono-Regular,monospace;color:#9a968f;text-align:right}
+    .skip-field{background:none;border:0;color:#9a968f;font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 0 0}
     .skip-field:hover{color:var(--acid)}
 
     .choice-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:4px}
@@ -85,7 +99,7 @@
     .visually-hidden{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     .briefing-checklist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;list-style:none;padding:0}
-    .briefing-checklist span{display:inline-flex;align-items:center;gap:7px;font:700 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.05em;text-transform:uppercase;color:#6f6d67;padding:7px 12px 7px 9px;border:1px solid #2c2c2a;border-radius:999px;transition:color .25s,border-color .25s}
+    .briefing-checklist span{display:inline-flex;align-items:center;gap:7px;font:700 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.05em;text-transform:uppercase;color:#9a968f;padding:7px 12px 7px 9px;border:1px solid #2c2c2a;border-radius:999px;transition:color .25s,border-color .25s}
     .briefing-checklist span i{width:9px;height:9px;border-radius:50%;border:1.5px solid #4a4844;flex:none;transition:all .25s}
     .briefing-checklist span.done{color:var(--white);border-color:#3c3c39}
     .briefing-checklist span.done i{background:var(--acid);border-color:var(--acid)}
@@ -128,6 +142,7 @@
     .ai-msg strong{color:var(--acid)}
     .ai-msg.user strong{color:var(--ink)}
     .ai-msg.typing{display:inline-flex;gap:9px;align-items:center;padding:13px 16px}
+    .ai-msg.typing .ai-typing-visual{display:inline-flex;gap:9px;align-items:center}
     .ai-msg.typing .ai-dots{display:inline-flex;gap:5px;align-items:center;flex:none}
     .ai-msg.typing .ai-dots i{width:6px;height:6px;border-radius:50%;background:#6f6d67;animation:ai-blink 1.1s infinite ease-in-out}
     .ai-msg.typing .ai-dots i:nth-child(2){animation-delay:.15s}
@@ -161,10 +176,19 @@
       #print-briefing .print-title{font-size:26px;font-weight:800;margin:0 0 26px;letter-spacing:-.02em}
       #print-fields dt{font:750 11px ui-monospace,SFMono-Regular,monospace;letter-spacing:.06em;text-transform:uppercase;color:#77746e;margin-top:18px}
       #print-fields dd{margin:4px 0 0;font-size:15.5px;line-height:1.5}
+      #print-refino h2{font-size:15px;font-weight:800;margin:34px 0 4px;padding-top:20px;border-top:1px solid #d8d4cc;letter-spacing:-.01em}
+      .print-turn{margin:14px 0 0;font-size:13.5px;line-height:1.55;page-break-inside:avoid}
+      .print-turn>b{display:block;font:750 10px ui-monospace,SFMono-Regular,monospace;letter-spacing:.08em;text-transform:uppercase;color:#77746e;margin-bottom:3px}
+      .print-turn p{margin:0 0 6px}
+      .print-turn p:last-child{margin-bottom:0}
+      .print-turn ul{margin:4px 0 6px;padding-left:18px}
+      .print-turn li{margin:0 0 2px}
+      .print-turn strong{font-weight:750}
+      .print-turn.user{padding-left:14px;border-left:3px solid #d7f75b}
       .print-footer{margin-top:48px;font-size:11px;color:#77746e;letter-spacing:.03em}
     }
 
-    footer.site-footer{width:min(calc(100% - 48px),var(--max));margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:#77746e;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:25px 0 36px;border-top:1px solid #262624}
+    footer.site-footer{width:min(calc(100% - 48px),var(--max));margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:#9a968f;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:25px 0 36px;border-top:1px solid #262624}
     .footer-brand{color:var(--white);font-weight:900}
 
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wizard-step.active,.contact-value.visible{animation:none}*{transition-duration:.01ms!important}}
@@ -295,6 +319,7 @@
   <div class="print-bar"></div>
   <p class="print-title">Briefing do Projeto</p>
   <dl id="print-fields"></dl>
+  <div id="print-refino" hidden></div>
   <p class="print-footer">Gerado em <span id="print-date"></span> · teralabs.cloud</p>
 </div>
 
@@ -440,8 +465,24 @@
       ['Ideia', state.ideia || '—'],
       ['Contato', state.metodo ? `${state.metodo} — ${state.valor}` : '—'],
     ];
+    const esc = v => String(v).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
     const dl = document.getElementById('print-fields');
-    dl.innerHTML = campos.map(([k, v]) => `<dt>${k}</dt><dd>${String(v).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</dd>`).join('');
+    dl.innerHTML = campos.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
+
+    const refino = document.getElementById('print-refino');
+    if (aiTranscript.length) {
+      // A fala da IA passa pelo mesmo formatador do chat — senão o PDF sai com
+      // os asteriscos crus do markdown. formatAiText já escapa antes de montar
+      // as tags, e devolve blocos, por isso o turno é uma div e não um <p>.
+      refino.innerHTML = '<h2>Refinamento com a Tera AI</h2>' + aiTranscript
+        .map(m => `<div class="print-turn ${m.role}"><b>${m.role === 'user' ? 'Você' : 'Tera AI'}</b>${m.role === 'user' ? `<p>${esc(m.text)}</p>` : formatAiText(m.text)}</div>`)
+        .join('');
+      refino.hidden = false;
+    } else {
+      refino.innerHTML = '';
+      refino.hidden = true;
+    }
+
     document.getElementById('print-date').textContent = new Date().toLocaleString('pt-BR');
     window.print();
   });
@@ -460,7 +501,9 @@
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if (!validateStep(5) && current === 5) return;
+    // A revisão não tem campo próprio para validar; o que precisa estar
+    // preenchido já foi checado nos passos 3 e 4 para chegar até aqui.
+    if (!state.ideia || !state.valor) { setError(5, 'Falta preencher a ideia ou o contato — volte um passo para completar.'); return; }
     const button = document.getElementById('submit-button');
     const original = button.innerHTML;
     button.disabled = true; button.innerHTML = 'Enviando… <span class="arrow">↗</span>';
@@ -500,6 +543,7 @@
   const aiSendBtn = aiForm.querySelector('button');
   let aiSessionId = null;
   let aiStarted = false;
+  const aiTranscript = [];
 
   function escapeHtml(str) {
     return str.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -527,10 +571,21 @@
       html += `<p>${line}</p>`;
     }
     if (inList) html += '</ul>';
-    return html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/(?<!\*)\*(?!\*)(.+?)\*(?!\*)/g, '<em>$1</em>');
+    // Sem lookbehind: um regex com (?<!) é erro de sintaxe em Safari anterior
+    // ao 16.4, e como isso quebra na hora de interpretar o script, derrubaria
+    // o wizard inteiro junto — não só o chat. O caractere anterior é capturado
+    // e devolvido, que dá o mesmo resultado com suporte universal.
+    return html
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*(?!\*)([^*\n]+?)\*(?!\*)/g, '$1<em>$2</em>');
   }
 
   function addAiMessage(role, text) {
+    // O PDF é gerado a partir daqui também: quem refina o briefing com a IA e
+    // depois baixa esperava levar o refinamento junto, não só as 4 respostas
+    // do formulário. A primeira mensagem é o contexto que o site envia, não
+    // algo que o lead escreveu, então fica de fora.
+    if (aiTranscript.length || role === 'bot') aiTranscript.push({ role, text });
     const p = document.createElement('div');
     p.className = `ai-msg ${role}`;
     if (role === 'bot') p.innerHTML = formatAiText(text);
@@ -545,14 +600,23 @@
   function addAiTyping() {
     const p = document.createElement('div');
     p.className = 'ai-msg bot typing';
-    p.setAttribute('aria-label', 'Tera AI está digitando');
+    // O status gira a cada 1,6s dentro de uma região aria-live: sem isto o
+    // leitor de tela repetiria "Pensando… Analisando… Chamando o agente…" sem
+    // parar enquanto se espera. A espera é anunciada uma vez, em texto fixo.
+    const spoken = document.createElement('span');
+    spoken.className = 'visually-hidden';
+    spoken.textContent = 'Tera AI está respondendo…';
+    const visual = document.createElement('span');
+    visual.className = 'ai-typing-visual';
+    visual.setAttribute('aria-hidden', 'true');
     const dots = document.createElement('span');
     dots.className = 'ai-dots';
     dots.innerHTML = '<i></i><i></i><i></i>';
     const status = document.createElement('span');
     status.className = 'ai-status';
     status.textContent = AI_STATUS_MESSAGES[0];
-    p.append(dots, status);
+    visual.append(dots, status);
+    p.append(spoken, visual);
     aiThread.appendChild(p);
     aiThread.scrollTop = aiThread.scrollHeight;
     let i = 0;
