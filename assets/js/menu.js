@@ -27,7 +27,7 @@
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-controls', 'menu-panel');
   toggle.setAttribute('aria-label', 'Abrir menu');
-  toggle.appendChild(document.createElement('i')).setAttribute('aria-hidden', 'true');
+  toggle.textContent = 'Menu';
   header.appendChild(toggle);
 
   var panel = document.createElement('div');
@@ -52,6 +52,17 @@
   label.className = 'menu-label';
   label.textContent = 'Navegação';
   head.appendChild(label);
+
+  // O painel cobre o cabeçalho, então o botão que abriu fica escondido atrás
+  // dele: a saída precisa existir dentro do próprio painel, na mesma posição
+  // em que estava o botão de abrir.
+  var close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'menu-close';
+  close.setAttribute('aria-label', 'Fechar menu');
+  close.textContent = 'Fechar';
+  head.appendChild(close);
+
   inner.appendChild(head);
 
   // O CTA do cabeçalho vira o rodapé do painel; os demais viram a lista.
@@ -115,15 +126,12 @@
     toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
     document.documentElement.classList.toggle('menu-open', open);
     document.body.classList.toggle('menu-open', open);
-    if (open) {
-      var first = focusables()[0];
-      if (first) first.focus();
-    } else {
-      toggle.focus();
-    }
+    if (open) close.focus();
+    else toggle.focus();
   }
 
   toggle.addEventListener('click', function () { setOpen(!open); });
+  close.addEventListener('click', function () { setOpen(false); });
 
   // Um link tocado fecha o painel. Nas rotas de hash a página não recarrega,
   // então fechar aqui é o que devolve a leitura ao visitante.

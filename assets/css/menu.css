@@ -22,58 +22,32 @@
     background: var(--paper);
   }
 
-  .menu-toggle {
+  /* O site inteiro age por pílula preta e rotula por mono maiúsculo — do CTA
+     do cabeçalho ao "01 / O QUE FAZEMOS". O botão de menu fala a mesma língua
+     em vez de importar um hambúrguer genérico que não é de lugar nenhum. */
+  .menu-toggle,
+  .menu-close {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: none;
-    width: 46px;
     height: 46px;
-    margin-left: 16px;
-    padding: 0;
-    border: 1px solid var(--line);
+    padding: 0 21px;
+    border: 0;
     border-radius: 999px;
-    background: transparent;
-    color: var(--ink);
+    background: var(--ink);
+    color: var(--white);
+    font: 800 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .2em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: border-color .2s ease, background .2s ease;
+    transition: background .2s ease, transform .2s ease;
   }
-  .menu-toggle:hover { border-color: var(--ink); }
-  .menu-toggle:active { background: var(--soft); }
-
-  /* Duas barras que viram um X. Sem terceira barra: com duas o estado aberto
-     é geometricamente exato em vez de aproximado. */
-  .menu-toggle i {
-    position: relative;
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: currentColor;
-    transition: transform .28s cubic-bezier(.16,1,.3,1), background .2s ease;
-  }
-  .menu-toggle i::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 18px;
-    height: 2px;
-    background: currentColor;
-    transform: translateY(-6px);
-    transition: transform .28s cubic-bezier(.16,1,.3,1);
-  }
-  .menu-toggle i::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 18px;
-    height: 2px;
-    background: currentColor;
-    transform: translateY(6px);
-    transition: transform .28s cubic-bezier(.16,1,.3,1);
-  }
-  .menu-toggle[aria-expanded="true"] i { background: transparent; }
-  .menu-toggle[aria-expanded="true"] i::before { transform: rotate(45deg); }
-  .menu-toggle[aria-expanded="true"] i::after { transform: rotate(-45deg); }
+  .menu-toggle { margin-left: 16px; }
+  .menu-toggle:hover,
+  .menu-close:hover { background: #292929; transform: translateY(-2px); }
+  .menu-toggle:active,
+  .menu-close:active { transform: translateY(0); }
 
   /* ------------------------------------------------------------- painel */
   .menu-panel {
@@ -82,7 +56,9 @@
     position: fixed;
     inset: 0;
     z-index: 90;
-    padding: 26px 0 max(26px, env(safe-area-inset-bottom));
+    /* Alinha o botão de fechar com a altura do cabeçalho (88px), para que
+       ele apareça exatamente onde o de abrir estava. */
+    padding: 21px 0 max(26px, env(safe-area-inset-bottom));
     background: var(--paper);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -104,6 +80,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     min-height: 46px;
     margin-bottom: 30px;
   }
@@ -113,6 +90,9 @@
     text-transform: uppercase;
     color: var(--muted);
   }
+
+  /* Fica exatamente onde estava o botão que abriu: mesma coluna, mesma
+     altura, mesma pílula. Fechar é desfazer o gesto, não procurar outro. */
 
   .menu-links {
     display: grid;
@@ -192,11 +172,12 @@
 @media (max-width: 640px) {
   header .nav-cta { display: none; }
   .menu-toggle { margin-left: 0; }
+  /* Aqui o cabeçalho tem 74px. */
+  .menu-panel { padding-top: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .menu-panel,
-  .menu-toggle i,
-  .menu-toggle i::before,
-  .menu-toggle i::after { transition: none; }
+  .menu-toggle,
+  .menu-close { transition: none; }
 }
