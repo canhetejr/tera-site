@@ -15,11 +15,14 @@
 @media (max-width: 900px) {
   /* Um menu que só existe no topo da página não é um menu: o cabeçalho passa
      a acompanhar a rolagem para que a navegação esteja sempre a um toque. */
+  /* O fundo vem de --surface, não de --paper fixo: o briefing é uma página
+     escura de marca branca, e um cabeçalho claro fazia a marca desaparecer.
+     Quem não define --surface continua recebendo --paper, como antes. */
   header {
     position: sticky;
     top: 0;
     z-index: 80;
-    background: var(--paper);
+    background: var(--surface, var(--paper));
   }
 
   /* O site inteiro age por pílula preta e rotula por mono maiúsculo — do CTA
@@ -44,10 +47,22 @@
     transition: background .2s ease, transform .2s ease;
   }
   .menu-toggle { margin-left: 16px; }
-  .menu-toggle:hover,
   .menu-close:hover { background: #292929; transform: translateY(-2px); }
   .menu-toggle:active,
   .menu-close:active { transform: translateY(0); }
+
+  /* O "Fechar" vive dentro do painel, que é sempre claro, então a pílula preta
+     serve. O "Menu" vive sobre a página: numa página escura a pílula preta
+     some contra o próprio cabeçalho, e a inversão é o que mantém o contraste.
+     Quem não define os tokens continua com a pílula preta de sempre. */
+  .menu-toggle {
+    background: var(--pill-bg, var(--ink));
+    color: var(--pill-fg, var(--white));
+  }
+  .menu-toggle:hover {
+    background: var(--pill-bg-hover, #292929);
+    transform: translateY(-2px);
+  }
 
   /* ------------------------------------------------------------- painel */
   .menu-panel {
