@@ -131,3 +131,7 @@ Documentação adicional vive em [`docs/`](docs/README.md):
 ## Contribuindo
 
 Veja [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Changelog
+
+O histórico de mudanças notáveis fica em [CHANGELOG.md](CHANGELOG.md).
