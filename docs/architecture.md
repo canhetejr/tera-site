@@ -32,7 +32,7 @@ flowchart TD
 2. **Cópia para o lead** — quando o visitante pede, o campo oculto `_cc` é preenchido antes do envio para que o FormSubmit também mande uma cópia ao próprio remetente.
 3. **Refinamento com IA (opcional)** — o botão "Melhorar com a Tera AI" abre um chat que envia mensagens via `fetch` para um webhook de chat hospedado em n8n:
    `https://n8n.teralabs.cloud/webhook/78fe5425-92f2-4546-b1f6-f349b47c0ca7/chat`.
-   Esse endpoint é o único ponto de integração com IA do site; a lógica do agente (prompt, modelo, orquestração) vive no workflow do n8n, fora deste repositório.
+   Esse endpoint é o único ponto de integração com IA do site; a lógica do agente (prompt, modelo, orquestração) vive no workflow `Tera.ai - Briefing de Leads`, no n8n, fora deste repositório — veja [`docs/n8n-workflow.md`](n8n-workflow.md) para o detalhamento dos nós e do comportamento do agente.
 4. **Download em PDF** — a revisão final do briefing pode ser exportada em PDF pelo próprio navegador (impressão da seção `#print-briefing` com CSS de `@media print`), sem serviço externo.
 
 > O URL do webhook do n8n é público por natureza (é o endpoint que o navegador do visitante chama diretamente) e não deve ser tratado como segredo — mas qualquer credencial de acesso ao workflow do n8n em si não está, e não deve estar, neste repositório.

@@ -115,7 +115,7 @@ O site não expõe uma API nem um CLI. O "uso" é a navegação normal entre as 
 
 1. O visitante responde a 4 perguntas em `briefing.html` (nome, empresa, ideia, forma de contato preferida).
 2. Ao enviar, o formulário é submetido ao FormSubmit, que encaminha por e-mail para a equipe da Tera (e, opcionalmente, envia cópia para o próprio lead).
-3. Antes de enviar, o visitante pode abrir "Melhorar com a Tera AI", um chat que conversa com um agente hospedado em n8n para refinar a descrição do projeto.
+3. Antes de enviar, o visitante pode abrir "Melhorar com a Tera AI", um chat que conversa com um agente hospedado em n8n para refinar a descrição do projeto (detalhes em [`docs/n8n-workflow.md`](docs/n8n-workflow.md)).
 4. O briefing final pode ser baixado em PDF pelo próprio visitante.
 
 ## Deploy
