@@ -117,6 +117,9 @@
     .download-link:hover{color:var(--acid)}
 
     .review-actions{display:flex;flex-direction:column;gap:10px;margin-top:28px}
+    .talk-direct{margin:6px 0 0;font-size:12.5px;line-height:1.5;color:#9a968f;text-align:center}
+    .talk-direct a{color:var(--acid);text-decoration:underline;text-underline-offset:3px}
+    .talk-direct a:hover{color:var(--white)}
     .action-primary,.action-secondary{display:flex;align-items:center;justify-content:space-between;gap:16px;border:0;border-radius:999px;padding:16px 22px;font-weight:800;font-size:14.5px;cursor:pointer;transition:transform .2s,background .2s,opacity .2s;width:100%}
     .action-primary{background:var(--acid);color:var(--ink)}
     .action-primary:hover{transform:translateY(-2px);background:#e5ff82}
@@ -127,8 +130,10 @@
     .action-secondary .arrow{background:#2c2c2a;color:var(--white)}
     .action-primary:disabled,.action-secondary:disabled{opacity:.55;cursor:wait;transform:none}
 
-    .ai-disclaimer{display:flex;gap:10px;align-items:flex-start;background:#1c1c19;border:1px solid #2c2c2a;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:12.5px;line-height:1.5;color:#aaa69f}
-    .ai-disclaimer b{color:var(--acid)}
+    /* Nota de rodapé: o aviso fica disponível sem ocupar o topo da conversa. */
+    .ai-disclaimer{margin:14px 0 0;font-size:11.5px;line-height:1.5;color:#9a968f}
+    .ai-disclaimer a{color:var(--acid);text-decoration:underline;text-underline-offset:3px}
+    .ai-disclaimer a:hover{color:var(--white)}
     .ai-thread{display:flex;flex-direction:column;gap:12px;max-height:min(420px,52vh);overflow-y:auto;overflow-x:hidden;padding-right:4px;margin-bottom:18px;scroll-behavior:smooth}
     .ai-msg{max-width:88%;padding:12px 15px;border-radius:14px;font-size:14.5px;line-height:1.5;margin:0;animation:ai-msg-in .25s ease both;overflow-wrap:break-word;word-break:break-word}
     @keyframes ai-msg-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
@@ -215,6 +220,9 @@
 <input type="hidden" name="_subject" value="Novo briefing — Experiência Tera"/>
 <input type="hidden" name="_template" value="table"/>
 <input type="hidden" name="_next" value="https://teralabs.cloud/briefing.html?enviado=1#sucesso-banner"/>
+<!-- Cópia do briefing para o próprio lead, preenchida no envio só quando ele
+     informou um e-mail. Fica vazio para WhatsApp, telefone ou "outro". -->
+<input type="hidden" name="_cc" id="copia-lead" value=""/>
 <input type="text" name="_honey" class="skip-field" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important"/>
 
 <div class="wizard-step step-cover active" data-step="0">
@@ -262,7 +270,7 @@
   </div>
   <input type="hidden" id="contato_metodo" name="contato_metodo" required/>
   <div class="contact-value" id="contact-email-wrap"><div class="wizard-field"><input type="email" id="contato_email" name="contato_email" placeholder="voce@empresa.com" autocomplete="email"/></div></div>
-  <div class="contact-value" id="contact-fone-wrap"><div class="wizard-field"><input type="tel" id="contato_fone" name="contato_fone" placeholder="(44) 99999-9999" autocomplete="tel"/></div></div>
+  <div class="contact-value" id="contact-fone-wrap"><div class="wizard-field"><label class="visually-hidden" for="contato_fone" id="rotulo-fone">Número com DDD</label><input type="tel" id="contato_fone" name="contato_fone" placeholder="(44) 99999-9999" autocomplete="tel" inputmode="tel"/></div></div>
   <div class="contact-value" id="contact-outro-wrap"><div class="wizard-field"><label class="visually-hidden" for="contato_outro">Como podemos te encontrar</label><input type="text" id="contato_outro" name="contato_outro" placeholder="Como podemos te encontrar? (Instagram, Telegram…)"/></div></div>
   <p class="wizard-error" data-error-for="4"></p>
   <div class="wizard-nav"><button type="button" class="wizard-back" data-action="back">← Voltar</button><button type="button" class="wizard-next" data-action="next">Revisar briefing <span class="arrow">↗</span></button></div>
@@ -287,6 +295,7 @@
   <div class="review-actions">
     <button type="submit" class="action-primary" id="submit-button">Enviar direto para a Tera <span class="arrow">↗</span></button>
     <button type="button" class="action-secondary" data-action="open-ai">Melhorar com a Tera AI <span class="arrow">✳</span></button>
+    <p class="talk-direct">Prefere conversar com uma pessoa? <a id="link-falar-direto" href="mailto:contato@teralabs.cloud">Fale direto com a Tera</a>.</p>
   </div>
 </div>
 
@@ -301,7 +310,6 @@
 
 <div class="wizard-step step-ai" data-step="ai" id="ai-step">
   <h2>Vamos refinar com a Tera AI.</h2>
-  <div class="ai-disclaimer"><span aria-hidden="true">✳</span><span><b>A Tera AI é uma inteligência artificial</b> e pode cometer erros. Se algo parecer errado, é só corrigir ou voltar para o formulário.</span></div>
   <div class="ai-thread" id="ai-thread" role="log" aria-live="polite" aria-label="Conversa com a Tera AI"></div>
   <p class="wizard-error" id="ai-error"></p>
   <form class="ai-form" id="ai-form">
@@ -309,6 +317,7 @@
     <textarea id="ai-input" rows="1" placeholder="Escreva sua resposta…"></textarea>
     <button type="submit" aria-label="Enviar mensagem"><span aria-hidden="true">↗</span></button>
   </form>
+  <p class="ai-disclaimer">A Tera AI é uma inteligência artificial e pode cometer erros. Prefere falar com uma pessoa? <a href="mailto:contato@teralabs.cloud?subject=Quero%20falar%20com%20a%20Tera">Fale direto com a Tera</a>.</p>
   <div class="wizard-nav" style="margin-top:18px"><button type="button" class="wizard-back" data-action="close-ai">← Voltar para o briefing</button><span></span></div>
 </div>
 
@@ -357,6 +366,22 @@
   const state = { nome: '', empresa: '', ideia: '', metodo: '', valor: '', nomeSkipped: false, empresaSkipped: false };
   let current = 0;
 
+  // Cada forma de contato declara onde escreve, o que valida e como se explica.
+  // WhatsApp e Telefone compartilham o campo de número, mudando só o texto.
+  const WRAPS = { email: 'contact-email-wrap', fone: 'contact-fone-wrap', outro: 'contact-outro-wrap' };
+  const CONTATO = {
+    'E-mail':   { wrap: WRAPS.email, input: 'contato_email', placeholder: 'voce@empresa.com',
+                  erro: 'Digite um e-mail válido.' },
+    'WhatsApp': { wrap: WRAPS.fone,  input: 'contato_fone',  placeholder: '(44) 99999-9999', telefone: true,
+                  erro: 'Digite o número do WhatsApp com DDD.',
+                  rotulo: { id: 'rotulo-fone', texto: 'Número de WhatsApp com DDD' } },
+    'Telefone': { wrap: WRAPS.fone,  input: 'contato_fone',  placeholder: '(44) 99999-9999', telefone: true,
+                  erro: 'Digite o número de telefone com DDD.',
+                  rotulo: { id: 'rotulo-fone', texto: 'Número de telefone com DDD' } },
+    'Outro':    { wrap: WRAPS.outro, input: 'contato_outro', placeholder: 'Instagram, Telegram, LinkedIn…',
+                  erro: 'Conta pra gente como podemos te encontrar.' },
+  };
+
   function updateChecklist() {
     document.querySelectorAll('.briefing-checklist span').forEach(el => {
       const key = el.dataset.check;
@@ -401,14 +426,14 @@
     }
     if (index === 4) {
       if (!state.metodo) { setError(4, 'Escolha uma forma de contato.'); return false; }
-      const input = state.metodo === 'E-mail' ? document.getElementById('contato_email')
-        : state.metodo === 'Telefone' ? document.getElementById('contato_fone')
-        : document.getElementById('contato_outro');
+      const cfg = CONTATO[state.metodo];
+      const input = document.getElementById(cfg.input);
       const v = input.value.trim();
-      if (!v || !input.checkValidity()) {
-        setError(4, state.metodo === 'E-mail' ? 'Digite um e-mail válido.' : state.metodo === 'Telefone' ? 'Digite um número válido.' : 'Conta pra gente como podemos te encontrar.');
-        return false;
-      }
+      // Telefone e WhatsApp: exige DDD + número, contando só os dígitos, para
+      // que a máscara não interfira. 10 dígitos (fixo) ou 11 (celular).
+      const digitos = v.replace(/\D/g, '').length;
+      const valido = v && input.checkValidity() && (!cfg.telefone || (digitos >= 10 && digitos <= 13));
+      if (!valido) { setError(4, cfg.erro); return false; }
       state.valor = v;
     }
     return true;
@@ -423,6 +448,20 @@
     const empresaTxt = state.empresa ? ` (${state.empresa})` : '';
     const ideiaResumo = state.ideia.length > 90 ? state.ideia.slice(0, 90).trim() + '…' : state.ideia;
     document.getElementById('review-summary').textContent = `${quem}${empresaTxt} quer: "${ideiaResumo}" — contato preferido: ${state.metodo || '—'}.`;
+
+    // Quem prefere falar com uma pessoa não deveria ter que redigitar tudo: o
+    // e-mail já abre com o briefing que acabou de preencher.
+    const corpo = [
+      'Oi, Tera! Preenchi o briefing no site e prefiro conversar por aqui.', '',
+      `Nome: ${state.nome || 'não informado'}`,
+      `Empresa: ${state.empresa || 'não informado'}`,
+      `Ideia: ${state.ideia || '—'}`,
+      `Contato preferido: ${state.metodo || '—'}${state.valor ? ' — ' + state.valor : ''}`,
+    ].join('\n');
+    const assunto = `Briefing — ${state.empresa || state.nome || 'novo projeto'}`;
+    document.getElementById('link-falar-direto').href =
+      `mailto:contato@teralabs.cloud?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
     updateChecklist();
   }
 
@@ -445,15 +484,16 @@
       const method = btn.dataset.method;
       state.metodo = method;
       document.getElementById('contato_metodo').value = method;
-      const emailWrap = document.getElementById('contact-email-wrap');
-      const foneWrap = document.getElementById('contact-fone-wrap');
-      const outroWrap = document.getElementById('contact-outro-wrap');
-      emailWrap.classList.toggle('visible', method === 'E-mail');
-      foneWrap.classList.toggle('visible', method === 'Telefone');
-      outroWrap.classList.toggle('visible', method === 'Outro');
-      const target = method === 'E-mail' ? document.getElementById('contato_email')
-        : method === 'Telefone' ? document.getElementById('contato_fone')
-        : document.getElementById('contato_outro');
+      const cfg = CONTATO[method];
+      // Cada método aponta para o próprio campo pela tabela acima. Antes isto
+      // era uma cadeia de ternários que só previa E-mail e Telefone, e o
+      // WhatsApp caía silenciosamente no campo "Outro" — que ficava escondido,
+      // deixando quem escolhia a opção mais usada do país sem onde digitar.
+      Object.values(WRAPS).forEach(id => document.getElementById(id).classList.remove('visible'));
+      document.getElementById(cfg.wrap).classList.add('visible');
+      const target = document.getElementById(cfg.input);
+      target.setAttribute('placeholder', cfg.placeholder);
+      if (cfg.rotulo) document.getElementById(cfg.rotulo.id).textContent = cfg.rotulo.texto;
       if (!reduced) setTimeout(() => target.focus(), 150);
     });
   });
@@ -490,6 +530,20 @@
   const ideiaEl = document.getElementById('ideia'), ideiaCount = document.getElementById('ideia-count');
   ideiaEl.addEventListener('input', () => { ideiaCount.textContent = String(ideiaEl.value.length); });
 
+  // Formata o número enquanto se digita: (44) 99999-9999. Só entra em ação em
+  // número brasileiro; quem digitar com +55 ou outro formato segue livre.
+  const foneEl = document.getElementById('contato_fone');
+  foneEl.addEventListener('input', () => {
+    const bruto = foneEl.value;
+    if (bruto.trim().startsWith('+')) return;
+    const d = bruto.replace(/\D/g, '').slice(0, 11);
+    if (!d) { foneEl.value = ''; return; }
+    let saida = '(' + d.slice(0, 2);
+    if (d.length > 2) saida += ') ' + d.slice(2, d.length > 10 ? 7 : 6);
+    if (d.length > (d.length > 10 ? 7 : 6)) saida += '-' + d.slice(d.length > 10 ? 7 : 6);
+    foneEl.value = saida;
+  });
+
   form.addEventListener('keydown', e => {
     if (e.key !== 'Enter') return;
     const tag = e.target.tagName;
@@ -504,6 +558,11 @@
     // A revisão não tem campo próprio para validar; o que precisa estar
     // preenchido já foi checado nos passos 3 e 4 para chegar até aqui.
     if (!state.ideia || !state.valor) { setError(5, 'Falta preencher a ideia ou o contato — volte um passo para completar.'); return; }
+    // O lead recebe a própria cópia quando deixou um e-mail — é o comprovante
+    // do que enviou. Sem e-mail (WhatsApp, telefone, outro) o campo fica vazio.
+    document.getElementById('copia-lead').value =
+      state.metodo === 'E-mail' && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.valor) ? state.valor : '';
+
     const button = document.getElementById('submit-button');
     const original = button.innerHTML;
     button.disabled = true; button.innerHTML = 'Enviando… <span class="arrow">↗</span>';
